@@ -5,17 +5,18 @@ using namespace std;
 
 int main()
 {
-    Matrix m = Matrix(3, 3);
-    m.print();
+    Matrix a = Matrix(2, 2);
+    a[0][0] = 1;
+    a[0][1] = 2;
+    a[1][0] = 3;
+    a[1][1] = 4;
+    a.print();
 
-    cout << m[0][0] << endl;
-    m[0][0] = 3;
-    m.print();
+    Matrix x = Matrix(2, 1);
+    x[0][0] = 5;
+    x[1][0] = 10;
+    x.print();
 
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-            m[i][j] = 3 * i + j;
-    }
-    m.print();
+    Matrix b = a * x;
+    b.print();
 }

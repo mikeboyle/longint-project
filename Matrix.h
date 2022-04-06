@@ -25,6 +25,7 @@ public:
     ~Matrix();
     void print();
     Row &operator[](int i);
+    Matrix &operator*(Matrix &);
 };
 
 #endif

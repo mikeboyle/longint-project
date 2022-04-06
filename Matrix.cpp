@@ -60,3 +60,25 @@ void Matrix::print()
     }
     cout << "]" << endl;
 }
+
+Matrix &Matrix::operator*(Matrix &other)
+{
+    if (width != other.height)
+        throw std::invalid_argument("left matrix width must equal right matrix height");
+
+    Matrix *product = new Matrix(height, other.width);
+    for (int row = 0; row < height; row++)
+    {
+        for (int col = 0; col < other.width; col++)
+        {
+            // product[row][col] = dot product of row x col
+            double sum = 0;
+            for (int i = 0; i < height; i++)
+                sum += matrix[row][i] * other[i][col];
+
+            (*product)[row][col] = sum;
+        }
+    }
+
+    return *product;
+}
