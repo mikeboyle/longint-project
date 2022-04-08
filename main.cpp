@@ -62,7 +62,10 @@ int main()
     sum = L1 + L2;
 
     cout << L1 << " + " << L2 << " = " << L1 + L2 << endl;
-    // cout << sum << endl;
+
+    cout << L1 << " + " << sum << " = " << L1 + sum << endl;
+
+    cout << sum << " + " << L2 << " = " << sum + L2 << endl;
 
     // testCompareAll();
 }
