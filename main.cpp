@@ -22,17 +22,39 @@ void testMatrix()
     b.print();
 }
 
+void testCompare(int a, int b)
+{
+    LongInt L1(a);
+    LongInt L2(b);
+    cout << endl;
+    cout << "L1 = " << L1 << endl;
+    cout << "L2 = " << L2 << endl;
+
+    cout << L2 << " == " << L1 << ": " << (L2 == L1 ? "true" : "false") << endl;
+    cout << L2 << " != " << L1 << ": " << (L2 != L1 ? "true" : "false") << endl;
+    cout << L2 << " <  " << L1 << ": " << (L2 < L1 ? "true" : "false") << endl;
+    cout << L2 << " <= " << L1 << ": " << (L2 <= L1 ? "true" : "false") << endl;
+    cout << L2 << " >  " << L1 << ": " << (L2 > L1 ? "true" : "false") << endl;
+    cout << L2 << " >= " << L1 << ": " << (L2 >= L1 ? "true" : "false") << endl;
+}
+
+void testCompareAll()
+{
+    testCompare(12345, 12345);
+    testCompare(-12345, -12345);
+    testCompare(-12345, 12345);
+    testCompare(12345, -12345);
+    testCompare(1234, 12345);
+    testCompare(-1234, -12345);
+    testCompare(12345, 1234);
+    testCompare(-12345, -1234);
+    testCompare(12345, 10095);
+    testCompare(-12345, -10095);
+    testCompare(19000, 15999);
+    testCompare(-19000, -15999);
+}
+
 int main()
 {
-    LongInt L(-12345);
-    cout << L << endl;
-
-    LongInt L2(-13345);
-    cout << L2 << endl;
-    cout << (L2.compare(L)) << endl;
-
-    // LongInt L3;
-    // cout << "Enter an integer: ";
-    // cin >> L3;
-    // cout << L3 << endl;
+    testCompareAll();
 }

@@ -28,12 +28,11 @@ private:
     // compare returns -1 if this is less than other,
     // 1 if this is greater than other,
     // 0 if equal
-    // int compare(LongInt &);
+    int compare(LongInt &);
     // charToDigit converts a char from '0' to '9' into an int
     int charToDigit(const char &);
 
 public:
-    int compare(LongInt &);
     // Default constructor
     LongInt();
     // Construct a LongInt from a string representation of a number
@@ -51,20 +50,21 @@ public:
     int getLength() const;
 
     // OPERATOR OVERLOADS
+    // TODO: Modify iterator so we can use const lvalues here
     // Overload operator =
     const LongInt &operator=(const LongInt &);
     // Overload operator ==
-    bool operator==(const LongInt &);
+    bool operator==(LongInt &);
     // Overload operator !=
-    bool operator!=(const LongInt &);
+    bool operator!=(LongInt &);
     // Overload operator <
-    bool operator<(const LongInt &);
+    bool operator<(LongInt &);
     // Overload operator <=
-    bool operator<=(const LongInt &);
+    bool operator<=(LongInt &);
     // Overload operator >
-    bool operator>(const LongInt &);
+    bool operator>(LongInt &);
     // Overload operator >=
-    bool operator>=(const LongInt &);
+    bool operator>=(LongInt &);
     // Overload operator +
     const LongInt &operator+(const LongInt &);
     // Overload operator -

@@ -122,3 +122,33 @@ istream &operator>>(istream &in, LongInt &L)
 
     return in;
 }
+
+bool LongInt::operator==(LongInt &other)
+{
+    return compare(other) == 0;
+}
+
+bool LongInt::operator!=(LongInt &other)
+{
+    return compare(other) != 0;
+}
+
+bool LongInt::operator<(LongInt &other)
+{
+    return compare(other) == -1;
+}
+
+bool LongInt::operator<=(LongInt &other)
+{
+    return compare(other) <= 0;
+}
+
+bool LongInt::operator>(LongInt &other)
+{
+    return compare(other) == 1;
+}
+
+bool LongInt::operator>=(LongInt &other)
+{
+    return compare(other) >= 0;
+}
