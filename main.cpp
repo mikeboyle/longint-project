@@ -1,9 +1,10 @@
 #include <iostream>
 #include "Matrix.h"
+#include "LongInt.h"
 
 using namespace std;
 
-int main()
+void testMatrix()
 {
     Matrix a = Matrix(2, 2);
     a[0][0] = 1;
@@ -19,4 +20,19 @@ int main()
 
     Matrix b = a * x;
     b.print();
+}
+
+int main()
+{
+    LongInt L(-12345);
+    cout << L << endl;
+
+    LongInt L2(-13345);
+    cout << L2 << endl;
+    cout << (L2.compare(L)) << endl;
+
+    // LongInt L3;
+    // cout << "Enter an integer: ";
+    // cin >> L3;
+    // cout << L3 << endl;
 }
