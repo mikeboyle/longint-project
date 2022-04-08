@@ -56,5 +56,13 @@ void testCompareAll()
 
 int main()
 {
-    testCompareAll();
+    LongInt L1(34);
+    LongInt L2(68);
+    LongInt sum;
+    sum = L1 + L2;
+
+    cout << L1 << " + " << L2 << " = " << L1 + L2 << endl;
+    // cout << sum << endl;
+
+    // testCompareAll();
 }

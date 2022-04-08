@@ -31,6 +31,24 @@ private:
     int compare(LongInt &);
     // charToDigit converts a char from '0' to '9' into an int
     int charToDigit(const char &);
+    // handleAdd determines which computation to perform when the '+' operator is called
+    LongInt &handleAdd(LongInt &);
+    // handleSubtract determines which computation to perform when the '-' operator is called
+    const LongInt &handleSubtract(LongInt &);
+    // handleMultiply determines which computation to perform when the '*' operator is called
+    const LongInt &handleMultiply(LongInt &);
+    // handleDivide determines which computation to perform when the '/' operator is called
+    const LongInt &handleDivide(LongInt &);
+    // handleModulo determines which computation to perform when the '%' operator is called
+    const LongInt &handleModulo(LongInt &);
+    // add returns the sum of two LongInts
+    LongInt *add(LongInt &, LongInt &);
+    // subtract returns the difference of two LongInts (first arg minus second arg)
+    const LongInt &subtract(LongInt &, LongInt &);
+    // multiply returns the product of two LongInts
+    const LongInt &multiply(LongInt &, LongInt &);
+    // divide returns the quotient of two LongInts (first arg divided by second arg)
+    const LongInt &divide(LongInt &, LongInt &);
 
 public:
     // Default constructor
@@ -66,15 +84,15 @@ public:
     // Overload operator >=
     bool operator>=(LongInt &);
     // Overload operator +
-    const LongInt &operator+(const LongInt &);
+    LongInt &operator+(LongInt &);
     // Overload operator -
-    const LongInt &operator-(const LongInt &);
+    const LongInt &operator-(LongInt &);
     // Overload operator *
-    const LongInt &operator*(const LongInt &);
+    const LongInt &operator*(LongInt &);
     // Overload operator /
-    const LongInt &operator/(const LongInt &);
+    const LongInt &operator/(LongInt &);
     // Overload operator %
-    const LongInt &operator%(const LongInt &);
+    const LongInt &operator%(LongInt &);
 };
 
 #endif

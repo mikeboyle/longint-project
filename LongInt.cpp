@@ -33,6 +33,22 @@ LongInt::LongInt(const int &num)
     }
 }
 
+LongInt::LongInt(const LongInt &other)
+{
+    isNegative = other.isNegative;
+    digits = other.digits;
+}
+
+const LongInt &LongInt::operator=(const LongInt &other)
+{
+    if (this != &other)
+    {
+        isNegative = other.isNegative;
+        digits = other.digits;
+    }
+    return *this;
+}
+
 LongInt::~LongInt()
 {
 }
@@ -151,4 +167,83 @@ bool LongInt::operator>(LongInt &other)
 bool LongInt::operator>=(LongInt &other)
 {
     return compare(other) >= 0;
+}
+
+LongInt &LongInt::operator+(LongInt &other)
+{
+    // return handleAdd(other);
+    LongInt a = LongInt(*this);
+    LongInt b = LongInt(other);
+    LongInt *res = add(a, b);
+
+    return *res;
+}
+
+// LongInt &LongInt::handleAdd(LongInt &other)
+// {
+//     LongInt a = LongInt(*this);
+//     LongInt b = LongInt(other);
+//     LongInt *res = new LongInt;
+
+//     if (isNegative)
+//     {
+//         if (other.isNegative)
+//         {
+//             LongInt sum = add(a, b);
+//             sum.isNegative = true;
+//             res = &sum;
+//         }
+//         else
+//         {
+//             LongInt diff = b - a;
+//             res = &diff;
+//         }
+//     }
+//     else
+//     {
+//         if (other.isNegative)
+//         {
+//             LongInt diff = a - b;
+//             res = &diff;
+//         }
+//         else
+//         {
+//             LongInt sum = add(a, b);
+//             res = &sum;
+//         }
+//     }
+
+//     return *res;
+// }
+
+LongInt *LongInt::add(LongInt &a, LongInt &b)
+{
+    ListIterator<int> currA = a.digits.iteratorBegin();
+    ListIterator<int> currB = b.digits.iteratorBegin();
+
+    int carry = 0;
+
+    LongInt *res = new LongInt;
+    while (currA.hasNext() || currB.hasNext())
+    {
+        int digitA = currA.hasNext() ? *currA : 0;
+        int digitB = currB.hasNext() ? *currB : 0;
+
+        int sum = digitA + digitB + carry; // add the digits
+        res->digits.insertLast(sum % 10);  // add to sum
+        carry = sum / 10;                  // carry over
+
+        // advance iterators if they are not already finished
+        if (currA.hasNext())
+            currA.next();
+        if (currB.hasNext())
+            currB.next();
+    }
+
+    // add any remaining carry
+    if (carry > 0)
+        res->digits.insertLast(carry);
+
+    // return the result
+    return res;
 }
