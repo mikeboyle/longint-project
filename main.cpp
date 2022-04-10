@@ -94,7 +94,7 @@ void testSingleSubtract(LongInt &a, LongInt &b)
     cout << a << " - " << b << " = " << a - b << endl;
 }
 
-void testSimpleSubtract()
+void testSubtract()
 {
     LongInt L1(7002);
     LongInt L2(5808);
@@ -135,6 +135,6 @@ void testSimpleSubtract()
 int main()
 {
     testAdd();
-    testSimpleSubtract();
+    testSubtract();
     // testCompareAll();
 }
