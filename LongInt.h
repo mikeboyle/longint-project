@@ -22,6 +22,7 @@
 #define LONG_INT_H
 
 #include "DoublyLinkedList.cpp"
+#include "ListIterator.h"
 #include <string>
 #include <iostream>
 
@@ -57,11 +58,13 @@ private:
     // add returns the sum of two LongInts
     LongInt *add(LongInt &, LongInt &);
     // subtract returns the difference of two LongInts (first arg minus second arg)
-    const LongInt &subtract(LongInt &, LongInt &);
+    LongInt *subtract(LongInt &, LongInt &);
     // multiply returns the product of two LongInts
     const LongInt &multiply(LongInt &, LongInt &);
     // divide returns the quotient of two LongInts (first arg divided by second arg)
     const LongInt &divide(LongInt &, LongInt &);
+    // borrow recursively borrows 1 from a digit's neighbors as part of subtraction
+    void borrow(ListIterator<int> &);
 
 public:
     // Default constructor
@@ -99,7 +102,7 @@ public:
     // Overload operator +
     LongInt &operator+(LongInt &);
     // Overload operator -
-    const LongInt &operator-(LongInt &);
+    LongInt &operator-(LongInt &);
     // Overload operator *
     const LongInt &operator*(LongInt &);
     // Overload operator /

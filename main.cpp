@@ -54,7 +54,7 @@ void testCompareAll()
     testCompare(-19000, -15999);
 }
 
-int main()
+void testSimpleAdd()
 {
     LongInt L1(34);
     LongInt L2(68);
@@ -66,6 +66,21 @@ int main()
     cout << L1 << " + " << sum << " = " << L1 + sum << endl;
 
     cout << sum << " + " << L2 << " = " << sum + L2 << endl;
+}
 
+void testSimpleSubtract()
+{
+    LongInt L1(7002);
+    LongInt L2(5808);
+    LongInt difference;
+    difference = L1 - L2;
+
+    cout << L1 << " - " << L2 << " = " << difference << endl;
+}
+
+int main()
+{
+    testSimpleAdd();
+    testSimpleSubtract();
     // testCompareAll();
 }

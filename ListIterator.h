@@ -39,6 +39,8 @@ public:
     ListIterator();
     // Constructor with a node; should not copy the underlying list
     ListIterator(Node<T> *);
+    // Copy constructor
+    ListIterator(const ListIterator<T> &);
     // Destructor should not delete the underlying list
     ~ListIterator();
     // hasNext() returns true if curr is not null, false if null
@@ -55,5 +57,8 @@ public:
     // Overload of dereferencing operator
     // This will print the data of the current node without advancing curr
     T operator*();
+
+    // Reassign the value of the data at the current node
+    void operator=(const T &);
 };
 #endif

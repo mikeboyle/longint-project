@@ -67,3 +67,16 @@ T ListIterator<T>::operator*()
 {
     return curr->data;
 }
+
+template <class T>
+void ListIterator<T>::operator=(const T &item)
+{
+    if (curr != NULL)
+        curr->data = item;
+}
+
+template <class T>
+ListIterator<T>::ListIterator(const ListIterator<T> &other)
+{
+    curr = other.curr;
+}
