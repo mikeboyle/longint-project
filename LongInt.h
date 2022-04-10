@@ -46,9 +46,9 @@ private:
     // charToDigit converts a char from '0' to '9' into an int
     int charToDigit(const char &);
     // handleAdd determines which computation to perform when the '+' operator is called
-    LongInt &handleAdd(LongInt &);
+    LongInt *handleAdd(LongInt &, LongInt &);
     // handleSubtract determines which computation to perform when the '-' operator is called
-    const LongInt &handleSubtract(LongInt &);
+    LongInt *handleSubtract(LongInt &, LongInt &);
     // handleMultiply determines which computation to perform when the '*' operator is called
     const LongInt &handleMultiply(LongInt &);
     // handleDivide determines which computation to perform when the '/' operator is called

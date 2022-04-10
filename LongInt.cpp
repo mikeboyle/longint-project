@@ -23,6 +23,8 @@ LongInt::LongInt()
 LongInt::LongInt(const int &num)
 {
     isNegative = num < 0;
+    if (num == 0)
+        digits.insertLast(0);
 
     // copy num and add digits
     int number = abs(num);
@@ -171,11 +173,10 @@ bool LongInt::operator>=(LongInt &other)
 
 LongInt &LongInt::operator+(LongInt &other)
 {
-    // return handleAdd(other);
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);
-    LongInt *res = add(a, b);
 
+    LongInt *res = handleAdd(a, b);
     return *res;
 }
 
@@ -183,47 +184,116 @@ LongInt &LongInt::operator-(LongInt &other)
 {
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);
-    LongInt *res = subtract(a, b);
+
+    LongInt *res = handleSubtract(a, b);
 
     return *res;
 }
 
-// LongInt &LongInt::handleAdd(LongInt &other)
-// {
-//     LongInt a = LongInt(*this);
-//     LongInt b = LongInt(other);
-//     LongInt *res = new LongInt;
+LongInt *LongInt::handleSubtract(LongInt &a, LongInt &b)
+{
+    LongInt *res;
+    if (a == b)
+        res = new LongInt(0);
+    else if (a > b)
+    {
+        // both are positive - straightforward case
+        if (!a.isNegative && !b.isNegative)
+            res = subtract(a, b);
 
-//     if (isNegative)
-//     {
-//         if (other.isNegative)
-//         {
-//             LongInt sum = add(a, b);
-//             sum.isNegative = true;
-//             res = &sum;
-//         }
-//         else
-//         {
-//             LongInt diff = b - a;
-//             res = &diff;
-//         }
-//     }
-//     else
-//     {
-//         if (other.isNegative)
-//         {
-//             LongInt diff = a - b;
-//             res = &diff;
-//         }
-//         else
-//         {
-//             LongInt sum = add(a, b);
-//             res = &sum;
-//         }
-//     }
+        // a is positive, b is negative
+        // a - (-b) = a + b
+        // ex: 30 - -20 = 30 + 20
+        else if (!a.isNegative && b.isNegative)
+        {
+            b.isNegative = false;
+            res = add(a, b);
+        }
 
-//     return *res;
-// }
+        // else both are negative
+        // -a - -b = -a + b = b - a
+        // ex: -20 - (-30) = -20 + 30 = 30-20
+        else
+        {
+            a.isNegative = false;
+            b.isNegative = false;
+            res = subtract(b, a);
+        }
+    }
+    else // a < b
+    {
+        // both are positive
+        // a - b = -(b-a)
+        // ex: 20 - 30 = -(30-20)
+        // note that if a < b, then a -b will always be negative
+        if (!a.isNegative && !b.isNegative)
+        {
+            res = subtract(b, a);
+            res->isNegative = true;
+        }
+
+        // a is negative, b is positive
+        // negative number minus positive will always be negative
+        // -a - b = -(a+b)
+        // ex: -20 - 30 = -(20 + 30)
+        // note that a negative number minus a positive number will always be negative
+        else if (a.isNegative && !b.isNegative)
+        {
+            a.isNegative = false;
+            res = add(a, b);
+            res->isNegative = true;
+        }
+
+        // else both are negative
+        // -a - -b = -a + b = -(a - b)
+        // ex: -30 - -29 = -30 + 29 = -(30 - 29)
+        // note that a negative number minus a larger negative number will always be negative
+        else
+        {
+            a.isNegative = false;
+            b.isNegative = false;
+            res = subtract(a, b);
+            res->isNegative = true;
+        }
+    }
+
+    return res;
+}
+
+LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
+{
+    LongInt *res;
+
+    if (a.isNegative)
+    {
+        if (b.isNegative)
+        {
+            res = add(a, b);
+            res->isNegative = true;
+        }
+        else
+        {
+            // TODO: Should be a call to handleSubtract(b, a) to catch all cases
+            // For now this can only handle a "straightforward" b - a where abs(a) < abs(b)
+            res = subtract(b, a);
+        }
+    }
+    else
+    {
+        if (b.isNegative)
+        {
+            // TODO: Should be a call to handleSubtract(a, b) to catch all cases
+            // For now this can only handle a "straightforward" a - b where abs(b) < abs(a)
+            res = subtract(a, b);
+        }
+        else
+        {
+            res = add(a, b);
+        }
+    }
+
+    return res;
+}
 
 LongInt *LongInt::add(LongInt &a, LongInt &b)
 {
@@ -291,7 +361,6 @@ LongInt *LongInt::subtract(LongInt &a, LongInt &b)
 
 void LongInt::borrow(ListIterator<int> &p)
 {
-    cout << "borrowing from " << *p << endl;
     if (*p > 0)
         p = *p - 1;
     else if (p.hasNext())
