@@ -87,7 +87,7 @@ string LongInt::toString() const
     return out.str();
 }
 
-int LongInt::compare(LongInt &other)
+int LongInt::compare(const LongInt &other)
 {
     // First compare isNegative
     if (isNegative && !other.isNegative) // this is negative; other is not
@@ -167,32 +167,32 @@ istream &operator>>(istream &in, LongInt &L)
     return in;
 }
 
-bool LongInt::operator==(LongInt &other)
+bool LongInt::operator==(const LongInt &other)
 {
     return compare(other) == 0;
 }
 
-bool LongInt::operator!=(LongInt &other)
+bool LongInt::operator!=(const LongInt &other)
 {
     return compare(other) != 0;
 }
 
-bool LongInt::operator<(LongInt &other)
+bool LongInt::operator<(const LongInt &other)
 {
     return compare(other) == -1;
 }
 
-bool LongInt::operator<=(LongInt &other)
+bool LongInt::operator<=(const LongInt &other)
 {
     return compare(other) <= 0;
 }
 
-bool LongInt::operator>(LongInt &other)
+bool LongInt::operator>(const LongInt &other)
 {
     return compare(other) == 1;
 }
 
-bool LongInt::operator>=(LongInt &other)
+bool LongInt::operator>=(const LongInt &other)
 {
     return compare(other) >= 0;
 }
@@ -309,8 +309,6 @@ LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
         }
         else
         {
-            // TODO: Should be a call to handleSubtract(b, a) to catch all cases
-            // For now this can only handle a "straightforward" b - a where abs(a) < abs(b)
             a.isNegative = false;
             res = handleSubtract(b, a);
         }
@@ -319,8 +317,6 @@ LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
     {
         if (b.isNegative)
         {
-            // TODO: Should be a call to handleSubtract(a, b) to catch all cases
-            // For now this can only handle a "straightforward" a - b where abs(b) < abs(a)
             b.isNegative = false;
             res = handleSubtract(a, b);
         }

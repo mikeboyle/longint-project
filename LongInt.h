@@ -38,7 +38,7 @@ private:
     // compare returns -1 if this is less than other,
     // 1 if this is greater than other,
     // 0 if equal
-    int compare(LongInt &);
+    int compare(const LongInt &);
     // charToDigit converts a char from '0' to '9' into an int
     int charToDigit(const char &);
     // handleAdd determines which computation to perform when the '+' operator is called
@@ -99,17 +99,17 @@ public:
     // Overload operator =
     const LongInt &operator=(const LongInt &);
     // Overload operator ==
-    bool operator==(LongInt &);
+    bool operator==(const LongInt &);
     // Overload operator !=
-    bool operator!=(LongInt &);
+    bool operator!=(const LongInt &);
     // Overload operator <
-    bool operator<(LongInt &);
+    bool operator<(const LongInt &);
     // Overload operator <=
-    bool operator<=(LongInt &);
+    bool operator<=(const LongInt &);
     // Overload operator >
-    bool operator>(LongInt &);
+    bool operator>(const LongInt &);
     // Overload operator >=
-    bool operator>=(LongInt &);
+    bool operator>=(const LongInt &);
     // Overload operator +
     const LongInt &operator+(LongInt &);
     // Overload operator -
