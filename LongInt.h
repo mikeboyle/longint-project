@@ -4,13 +4,8 @@
  * @brief Header file for LongInt class
  * @date 2022-04-29
  *
- * TODO: Issues from ListIterator that prevent using const in args and returns -- is this okay?
- * TODO: Algorithm for divide and multiply?
- * TODO: Cases for handleSubtract, handleMultiply (easy), handleDivide (easy-ish), handleModulo (?)
- * for multiply
- * (copy to a and b nums that are positive)
- * if both same sign: return a * b
- * else return a * b * -1
+ * TODO: Algorithm for divide?
+ * TODO: Cases for handleDivide (easy-ish), handleModulo (?)
  *
  *
  * for a % b: IF BOTH SAME SIGN
