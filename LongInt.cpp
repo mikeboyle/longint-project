@@ -544,14 +544,13 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
 
 LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
 {
-    // Ex: 16384 / 16
-    LongInt *res = new LongInt; // 4->2->0->1
+    LongInt *res = new LongInt;
 
-    int quotient;                                  // 4
-    LongInt remainder(0);                          // 0
-    ListIterator<int> currRemainderDigit;          // NULL
-    LongInt nextDividend;                          // 4->6
-    ListIterator<int> currDigit = dividend.last(); // NULL
+    int quotient;
+    LongInt remainder(0);
+    ListIterator<int> currRemainderDigit;
+    LongInt nextDividend;
+    ListIterator<int> currDigit = dividend.last();
 
     while (currDigit.hasPrev())
     {
@@ -576,8 +575,6 @@ LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
         // move to the next digit
         currDigit.prev();
     }
-
-    res->removeTrailingZeroes();
 
     return res;
 }
