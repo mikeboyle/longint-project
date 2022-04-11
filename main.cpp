@@ -199,30 +199,58 @@ void testMultiplyAll()
          << "% (" << passed << " of " << total << ")" << endl;
 }
 
+bool testDivide(const int &a, const int &b)
+{
+    LongInt L1(a);
+    LongInt L2(b);
+
+    string expected = to_string(a / b);
+    string actual = (L1 / L2).toString();
+
+    if (expected != actual)
+    {
+        cout << "Uh oh! Expected " << a << " / " << b << " = " << expected
+             << " but got: " << actual << endl;
+        return false;
+    }
+
+    return true;
+}
+
 void testDivideAll()
 {
-    LongInt L1(20);
-    LongInt L2(6);
-    LongInt L3(16384);
-    LongInt L4(16);
-    LongInt one(1);
-    LongInt minusOne(-1);
+    cout << "testing division ... " << endl;
+    int total = 6;
+    int passed = 0;
 
-    cout << L1 << " / " << L1 << " = " << L1 / L1 << endl;
-    cout << L1 << " / " << one << " = " << L1 / one << endl;
-    cout << L2 << " / " << minusOne << " = " << L2 / minusOne << endl;
-    cout << L1 << " / " << L1 << " = " << L1 / L1 << endl;
-    LongInt q = L1 / L2;
-    cout << L1 << " / " << L2 << " = " << q << endl;
-    LongInt q2 = L3 / L4;
-    cout << L3 << " / " << L4 << " = " << q2 << endl;
+    passed += testDivide(20, 20);
+    passed += testDivide(20, 1);
+    passed += testDivide(6, -1);
+    passed += testDivide(20, 6);
+    passed += testDivide(6, 20);
+    passed += testDivide(16384, 16);
+
+    for (int a = -100001; a < 100001; a += 113)
+    {
+        for (int b = -1001; b < 1001; b += 7)
+        {
+            if (b != 0)
+            {
+                total++;
+                passed += testDivide(a, b);
+            }
+        }
+    }
+
+    cout << "passed " << (passed / total) * 100
+         << "% (" << passed << " of " << total << ")" << endl;
 }
 
 int main()
 {
-    testDivideAll();
     testCompareAll();
     testAddAll();
     testSubtractAll();
     testMultiplyAll();
+    testDivideAll();
 }

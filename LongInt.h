@@ -6,41 +6,8 @@
  *
  * TODO: String constructor
  * TODO: Testing of operations for LongInts beyond normal int max / min
- * TODO: Algorithm for divide?
- * 1. Find starting iteration point
- * x1a. Find the difference in length k, e.g. 16384 vs 16 => k = 3
- * x1b. Set counter i = 0 and LongInt currentDividend
- * x1c. going from original dividend.last -> first...
- *  x1d. add current digit to currentDividend. Ex. i = 0, cd = 1->; i=1, cd = 6->1; i=2, cd = 3->6->1; ...
- *  x1e. stop if either i >=k OR cd >= divisor. Ex: we stop at i=1, cd= 6->1
- * X 2. Base case division of currDividend / divisor: Ex: 16 / 16, 3/7, 110 / 129, 1 / 9
- *  X2a. find quotient with repeated subtraction (worst case is 9 subtractions)
- *  X2b. return quotient and remainder (as LongInts?)
- * 3. InsertLast for the result from 2, Ex: 16384 / 16 => 163 / 16 => 16 / 16 => result = 1->
- * 4. Prepare the next step in division
- *  4a. Advance to the "next digit" (Ex. 3); create a new LongInt with next digit; Ex. LongInt nextDividend(3) 3->
- *  4b. If remainder > 0, add its digits to the next dividend. Ex. 16384 / 120 => 163 / 120; res = 1-> , remainder = 3->4; nextDividend = 8->3->4
- * 5. Repeat 1-4 with the current dividend and original divisor
- * 6. Repeat above until ... ?
  *
- * 16384 / 16 => 16 / 16; res = 1-> remainder = 0
- * nextDividend = 3; 3/16 = 0; res = 0->1 remainder = 3
- * nextDividend = 38; 38 / 16 = 2; res = 2->0->1 remainder = 6
- * nextDividend = 64; 64 / 16 = 4; res = 4->2->0->1 remainder = 0
- *
- *
- *
- * TODO: Cases for handleDivide (easy-ish), handleModulo (?)
- *
- * for a / b:
- * if b == 0: throw error
- * if b == 1: return a
- * if a < b: return zero
- * if both same sign: return positive result
- * if different signs: return result as negative number
- *
- *
- *
+ * TODO: modulo cases
  * for a % b: IF BOTH SAME SIGN
  * if a == b: return 0
  * if a < b: return a

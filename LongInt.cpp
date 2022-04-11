@@ -373,6 +373,13 @@ LongInt *LongInt::handleMultiply(LongInt &a, LongInt &b)
 LongInt *LongInt::handleDivide(LongInt &a, LongInt &b)
 {
     LongInt *res;
+
+    // Find the absolute values
+    LongInt absA(a);
+    absA.isNegative = false;
+    LongInt absB(b);
+    absB.isNegative = false;
+
     // TODO: Make class constants for zero, 1, -1?
     if (b == LongInt(0))
         throw std::invalid_argument("Division by zero is not allowed");
@@ -392,13 +399,13 @@ LongInt *LongInt::handleDivide(LongInt &a, LongInt &b)
         res->isNegative = !res->isNegative;
     }
 
-    else if (a < b)
+    else if (absA < absB)
         res = new LongInt(0);
 
     else
     {
         bool bothSameSign = (a.isNegative && b.isNegative) || (!a.isNegative && !b.isNegative);
-        res = divide(a, b);
+        res = divide(absA, absB);
 
         if (!bothSameSign)
             res->isNegative = true;
@@ -581,6 +588,8 @@ LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
             }
         }
     }
+
+    res->removeTrailingZeroes();
 
     return res;
 }
