@@ -544,49 +544,37 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
 
 LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
 {
-    LongInt *res = new LongInt;
-    // Find starting point for the dividend (numerator)
-    // First, find difference in length
-    int k = dividend.getLength() - divisor.getLength();
-    // Set counter i = 0 and LongInt nextDividend
-    int i = 0;
-    ListIterator<int> currDigit = dividend.last();
-    LongInt nextDividend(*currDigit);
-    while (i < k && currDigit.hasPrev() && nextDividend < divisor)
-    {
-        i++;
-        currDigit.prev();
-        nextDividend.insertFirst(*currDigit);
-    }
+    // Ex: 16384 / 16
+    LongInt *res = new LongInt; // 4->2->0->1
 
-    // Do long division starting from the starting point
-    int quotient;
-    LongInt *remainder = new LongInt;
+    int quotient;                                  // 4
+    LongInt remainder(0);                          // 0
+    ListIterator<int> currRemainderDigit;          // NULL
+    LongInt nextDividend;                          // 4->6
+    ListIterator<int> currDigit = dividend.last(); // NULL
+
     while (currDigit.hasPrev())
     {
-        // divide nextDividend by divisor
-        divideNextStep(nextDividend, divisor, quotient, *remainder);
-
-        // add the quotient to the result
-        res->insertFirst(quotient);
-
-        // advance to the next digit in dividend
-        currDigit.prev();
-
-        // update nextDividend
-        if (currDigit.hasPrev())
+        nextDividend = LongInt(*currDigit);
+        if (remainder > LongInt(0))
         {
-            nextDividend = LongInt(*currDigit);
-            if (*remainder > LongInt(0))
+            currRemainderDigit = remainder.first();
+            while (currRemainderDigit.hasNext())
             {
-                ListIterator<int> currRemainderDigit = remainder->first();
-                while (currRemainderDigit.hasNext())
-                {
-                    nextDividend.insertLast(*currRemainderDigit);
-                    currRemainderDigit.next();
-                }
+                nextDividend.insertLast(*currRemainderDigit);
+                currRemainderDigit.next();
             }
         }
+
+        // do the next step of long division
+        divideNextStep(nextDividend, divisor, quotient, remainder);
+
+        // add the step's quotient to the result - but don't add trailing zeroes
+        if (quotient != 0 || res->getLength() > 0)
+            res->insertFirst(quotient);
+
+        // move to the next digit
+        currDigit.prev();
     }
 
     res->removeTrailingZeroes();
