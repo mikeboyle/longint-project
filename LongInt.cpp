@@ -274,7 +274,6 @@ LongInt *LongInt::handleSubtract(LongInt &a, LongInt &b)
         }
 
         // a is negative, b is positive
-        // negative number minus positive will always be negative
         // -a - b = -(a+b)
         // ex: -20 - 30 = -(20 + 30)
         // note that a negative number minus a positive number will always be negative
