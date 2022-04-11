@@ -20,6 +20,14 @@ LongInt::LongInt()
     isNegative = false;
 }
 
+LongInt::LongInt(const string &numStr)
+{
+    isNegative = false;
+    stringstream in;
+    in.str(numStr);
+    in >> *this;
+}
+
 LongInt::LongInt(const int &num)
 {
     isNegative = num < 0;
@@ -153,7 +161,7 @@ istream &operator>>(istream &in, LongInt &L)
 {
     char currChar;
     bool isFirstDigit = true;
-    while (in.peek() != '\n')
+    while (in.peek() != '\n' && in.peek() != EOF)
     {
         if (isFirstDigit && in.peek() == '-')
         {

@@ -246,8 +246,35 @@ void testDivideAll()
          << "% (" << passed << " of " << total << ")" << endl;
 }
 
+void testVeryLongInts()
+{
+    string ones = "1111111111111111111111111";
+    string twos = "2222222222222222222222222";
+    string threes = "3333333333333333333333333";
+
+    LongInt L1(ones);
+    LongInt L2(twos);
+    LongInt L3(threes);
+    LongInt sum = L1 + L2;
+    cout << "expected\t" << threes << endl;
+    cout << "actual\t\t" << sum << endl;
+
+    cout << L1 << " + " << L2 << " = " << sum << endl;
+    cout << L3 << " - " << L2 << " = " << L3 - L2 << endl;
+    LongInt product = L2 * L3;
+    cout << L2 << " * " << L3 << " = " << product << endl;
+    cout << L3 << " / " << L1 << " = " << L3 / L1 << endl;
+
+    LongInt L123("123456789");
+    LongInt L321("987654321");
+    cout << L123 << endl;
+    cout << L321 << endl;
+    cout << L123 * L321 << endl;
+}
+
 int main()
 {
+    testVeryLongInts();
     testCompareAll();
     testAddAll();
     testSubtractAll();

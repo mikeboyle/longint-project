@@ -67,8 +67,8 @@ private:
 public:
     // Default constructor
     LongInt();
-    // TODO: Construct a LongInt from a string representation of a number
-    LongInt(string);
+    // Construct a long int from a string
+    LongInt(const string &);
     // Construct a LongInt from an array of digits, length, bool (assume 1s place is in index 0)
     LongInt(int *, int, bool = false);
     // Construct a LongInt from an int
