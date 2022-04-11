@@ -61,7 +61,7 @@ private:
     LongInt *divide(LongInt &, LongInt &);
     // borrow recursively borrows 1 from a digit's neighbors as part of subtraction
     void borrow(ListIterator<int> &);
-    // helper function for dividing TODO: better comment and function name
+    // divideNextStep performs a single step in long division of two LongInts
     void divideNextStep(LongInt &, LongInt &, int &, LongInt &);
 
 public:

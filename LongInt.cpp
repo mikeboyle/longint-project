@@ -380,7 +380,6 @@ LongInt *LongInt::handleDivide(LongInt &a, LongInt &b)
     LongInt absB(b);
     absB.isNegative = false;
 
-    // TODO: Make class constants for zero, 1, -1?
     if (b == LongInt(0))
         throw std::invalid_argument("Division by zero is not allowed");
 
