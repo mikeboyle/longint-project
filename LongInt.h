@@ -95,7 +95,6 @@ public:
     string toString() const;
 
     // OPERATOR OVERLOADS
-    // TODO: Modify iterator so we can use const lvalues here
     // Overload operator =
     const LongInt &operator=(const LongInt &);
     // Overload operator ==
