@@ -91,6 +91,9 @@ public:
     // insertLast() adds a digit to the back of the LongInt
     void insertLast(const int &);
 
+    // toString() returns a string representation of the LongInt
+    string toString() const;
+
     // OPERATOR OVERLOADS
     // TODO: Modify iterator so we can use const lvalues here
     // Overload operator =

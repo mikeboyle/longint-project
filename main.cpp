@@ -48,42 +48,42 @@ void testCompareAll()
     passed += testCompare(19000, 15999);
     passed += testCompare(-19000, -15999);
 
-    cout << "test comparision operators | passed " << passed << " of " << total << endl;
+    cout << "test comparision operators | passed "
+         << passed << " of " << total << endl;
 }
 
-void testAdd()
+bool testAdd(const int &a, const int &b)
+{
+    LongInt L1(a);
+    LongInt L2(b);
+
+    string expected = to_string(a + b);
+    string actual = (L1 + L2).toString();
+
+    if (expected != actual)
+    {
+        cout << "Uh oh! Expected " << a << " + " << b << " = " << expected
+             << " but got: " << actual << endl;
+        return false;
+    }
+
+    return true;
+}
+
+void testAddAll()
 {
     // Both positive
-    LongInt L1(34);
-    LongInt L2(68);
-    LongInt sum;
-    sum = L1 + L2;
+    int total = 6;
+    int passed = 0;
 
-    cout << L1 << " + " << L2 << " = " << L1 + L2 << endl;
+    passed += testAdd(34, 68);
+    passed += testAdd(68, 34);
+    passed += testAdd(-34, -68);
+    passed += testAdd(-68, -34);
+    passed += testAdd(-27, 64);
+    passed += testAdd(64, -27);
 
-    cout << L1 << " + " << sum << " = " << L1 + sum << endl;
-
-    cout << sum << " + " << L2 << " = " << sum + L2 << endl;
-
-    // Both negative
-    LongInt L3(-34);
-    LongInt L4(-68);
-
-    cout << L3 << " + " << L4 << " = " << L3 + L4 << endl;
-
-    // a negative, b positive
-    LongInt L5(-27);
-    LongInt L6(64);
-
-    // 37
-    cout << L5 << " + " << L6 << " = " << L5 + L6 << endl;
-
-    // a positive, b negative
-    LongInt L7(64);
-    LongInt L8(-27);
-
-    // 37
-    cout << L7 << " + " << L8 << " = " << L7 + L8 << endl;
+    cout << "test addition | passed " << passed << " of " << total << endl;
 }
 
 void testSingleSubtract(LongInt &a, LongInt &b)
@@ -154,7 +154,7 @@ void testMultiply()
 int main()
 {
     testCompareAll();
-    // testAdd();
+    testAddAll();
     // testSubtract();
     // testMultiply();
 }

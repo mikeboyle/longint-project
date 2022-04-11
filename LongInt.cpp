@@ -80,6 +80,13 @@ void LongInt::insertLast(const int &item)
     digits.insertLast(item);
 }
 
+string LongInt::toString() const
+{
+    stringstream out;
+    out << *this;
+    return out.str();
+}
+
 int LongInt::compare(LongInt &other)
 {
     // First compare isNegative
