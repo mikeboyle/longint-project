@@ -1,26 +1,7 @@
 #include <iostream>
-#include "Matrix.h"
 #include "LongInt.h"
 
 using namespace std;
-
-void testMatrix()
-{
-    Matrix a = Matrix(2, 2);
-    a[0][0] = 1;
-    a[0][1] = 2;
-    a[1][0] = 3;
-    a[1][1] = 4;
-    a.print();
-
-    Matrix x = Matrix(2, 1);
-    x[0][0] = 5;
-    x[1][0] = 10;
-    x.print();
-
-    Matrix b = a * x;
-    b.print();
-}
 
 void testCompare(int a, int b)
 {
@@ -132,9 +113,32 @@ void testSubtract()
     testSingleSubtract(L3, L4);
 }
 
+void testSingleMultiply(LongInt &a, LongInt &b)
+{
+    cout << a << " * " << b << " = " << a * b << endl;
+}
+
+void testMultiply()
+{
+    LongInt L1(123);
+    LongInt L2(321);
+    LongInt L3(-123);
+    LongInt L4(-321);
+
+    testSingleMultiply(L1, L2);
+    testSingleMultiply(L2, L1);
+    testSingleMultiply(L1, L4);
+    testSingleMultiply(L4, L1);
+    testSingleMultiply(L2, L3);
+    testSingleMultiply(L3, L2);
+    testSingleMultiply(L3, L4);
+    testSingleMultiply(L4, L3);
+}
+
 int main()
 {
-    testAdd();
-    testSubtract();
+    // testAdd();
+    // testSubtract();
     // testCompareAll();
+    testMultiply();
 }

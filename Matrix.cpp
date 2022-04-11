@@ -42,6 +42,16 @@ Row &Matrix::operator[](int i)
     return *r;
 }
 
+int Matrix::getHeight() const
+{
+    return height;
+}
+
+int Matrix::getWidth() const
+{
+    return width;
+}
+
 void Matrix::print()
 {
     cout << "[";
@@ -73,7 +83,7 @@ Matrix &Matrix::operator*(Matrix &other)
         {
             // product[row][col] = dot product of row x col
             double sum = 0;
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < width; i++)
                 sum += matrix[row][i] * other[i][col];
 
             (*product)[row][col] = sum;

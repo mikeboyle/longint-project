@@ -23,6 +23,7 @@
 
 #include "DoublyLinkedList.cpp"
 #include "ListIterator.h"
+#include "Matrix.h"
 #include <string>
 #include <iostream>
 
@@ -60,9 +61,9 @@ private:
     // subtract returns the difference of two LongInts (first arg minus second arg)
     LongInt *subtract(LongInt &, LongInt &);
     // multiply returns the product of two LongInts
-    LongInt &multiply(LongInt &, LongInt &);
+    LongInt *multiply(LongInt &, LongInt &);
     // divide returns the quotient of two LongInts (first arg divided by second arg)
-    LongInt &divide(LongInt &, LongInt &);
+    LongInt *divide(LongInt &, LongInt &);
     // borrow recursively borrows 1 from a digit's neighbors as part of subtraction
     void borrow(ListIterator<int> &);
 

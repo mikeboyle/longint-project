@@ -26,6 +26,8 @@ public:
     void print();
     Row &operator[](int i);
     Matrix &operator*(Matrix &);
+    int getHeight() const;
+    int getWidth() const;
 };
 
 #endif

@@ -308,13 +308,17 @@ LongInt *LongInt::handleMultiply(LongInt &a, LongInt &b)
 {
     LongInt *res;
 
+    // were a and b both positive or both negative? check and save.
     bool bothSameSign = (a.isNegative && b.isNegative) || (!a.isNegative && !b.isNegative);
-    if (bothSameSign)
-    {
-    }
-    else
-    {
-    }
+
+    // convert a and b to their absolute value, then multiply
+    a.isNegative = false;
+    b.isNegative = false;
+    res = multiply(a, b);
+
+    // make result negative if exactly one of a or b was negative
+    if (!bothSameSign)
+        res->isNegative = true;
 
     return res;
 }
@@ -393,4 +397,47 @@ void LongInt::borrow(ListIterator<int> &p)
         p.next();
         borrow(p);
     }
+}
+
+LongInt *LongInt::multiply(LongInt &a, LongInt &b)
+{
+    // create the left matrix for a
+    // TODO: more precise way to compute numLeftRows
+    int numLeftRows = a.getLength() + b.getLength() - 1;
+    int numLeftCols = b.getLength();
+
+    Matrix left(numLeftRows, numLeftCols);
+
+    int row = 0;
+    ListIterator<int> currA = a.digits.iteratorBegin();
+    while (currA.hasNext())
+    {
+        int currRow = row;
+        for (int col = 0; col < numLeftCols; col++)
+            left[currRow++][col] = *currA;
+        row++;
+        currA.next();
+    }
+
+    // create the right matrix for b
+    Matrix right(b.getLength(), 1);
+    ListIterator<int> currB = b.digits.iteratorBegin();
+    for (int i = 0; i < b.getLength(); i++)
+        right[i][0] = currB.next();
+
+    Matrix product = left * right;
+
+    // some entries in product may be > 10
+    // convert product to a LongInt
+    LongInt *res = new LongInt;
+    int carry = 0;
+    int num;
+    for (int row = 0; row < product.getHeight(); row++)
+    {
+        num = product[row][0];
+        res->digits.insertLast((num + carry) % 10);
+        carry = (num + carry) / 10;
+    }
+
+    return res;
 }
