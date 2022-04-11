@@ -72,6 +72,7 @@ bool testAdd(const int &a, const int &b)
 
 void testAddAll()
 {
+    cout << "testing addition ... " << endl;
     int total = 9;
     int passed = 0;
 
@@ -96,8 +97,8 @@ void testAddAll()
         }
     }
 
-    cout << "test addition | passed " << (passed / total) * 100 << "% ("
-         << passed << " of " << total << ")" << endl;
+    cout << "passed " << (passed / total) * 100
+         << "% (" << passed << " of " << total << ")" << endl;
 }
 
 void testSingleSubtract(LongInt &a, LongInt &b)
@@ -125,6 +126,7 @@ bool testSubtract(const int &a, const int &b)
 
 void testSubtractAll()
 {
+    cout << "testing subtraction ... " << endl;
     int total = 9;
     int passed = 0;
 
@@ -149,8 +151,8 @@ void testSubtractAll()
         }
     }
 
-    cout << "test subtraction | passed " << (passed / total) * 100 << "% ("
-         << passed << " of " << total << ")" << endl;
+    cout << "passed " << (passed / total) * 100
+         << "% (" << passed << " of " << total << ")" << endl;
 }
 
 void testSingleMultiply(LongInt &a, LongInt &b)
@@ -178,6 +180,7 @@ bool testMultiply(const int &a, const int &b)
 
 void testMultiplyAll()
 {
+    cout << "testing multiplication ... " << endl;
     int total = 2;
     int passed = 0;
 
@@ -192,8 +195,8 @@ void testMultiplyAll()
             passed += testMultiply(a, b);
         }
     }
-    cout << "test multiply | passed " << (passed / total) * 100 << "% ("
-         << passed << " of " << total << ")" << endl;
+    cout << "passed " << (passed / total) * 100
+         << "% (" << passed << " of " << total << ")" << endl;
 }
 
 int main()
