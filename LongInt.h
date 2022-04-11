@@ -84,6 +84,12 @@ public:
     // getLength() returns the number of digits in the LongInt
     int getLength() const;
 
+    // first() returns an iterator at the first digit in the LongInt
+    ListIterator<int> first() const;
+
+    // last() returns an iterator at the last digit in the LongInt
+    ListIterator<int> last() const;
+
     // OPERATOR OVERLOADS
     // TODO: Modify iterator so we can use const lvalues here
     // Overload operator =

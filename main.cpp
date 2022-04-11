@@ -137,8 +137,8 @@ void testMultiply()
 
 int main()
 {
-    // testAdd();
-    // testSubtract();
-    // testCompareAll();
+    testAdd();
+    testSubtract();
+    testCompareAll();
     testMultiply();
 }

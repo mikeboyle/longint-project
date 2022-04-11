@@ -60,6 +60,16 @@ int LongInt::getLength() const
     return digits.getLength();
 }
 
+ListIterator<int> LongInt::first() const
+{
+    return digits.iteratorBegin();
+}
+
+ListIterator<int> LongInt::last() const
+{
+    return digits.iteratorEnd();
+}
+
 int LongInt::compare(LongInt &other)
 {
     // First compare isNegative
@@ -75,8 +85,8 @@ int LongInt::compare(LongInt &other)
         return isNegative ? -1 : 1;           // a "bigger" negative number is smaller
 
     // Numbers are the same length and both positive / both negative
-    ListIterator<int> thisLast = digits.iteratorEnd();
-    ListIterator<int> otherLast = other.digits.iteratorEnd();
+    ListIterator<int> thisLast = last();
+    ListIterator<int> otherLast = other.last();
 
     while (thisLast.hasPrev() && otherLast.hasPrev())
     {
@@ -100,7 +110,7 @@ ostream &operator<<(ostream &out, const LongInt &L)
     if (L.isNegative)
         out << "-";
 
-    ListIterator<int> last = L.digits.iteratorEnd();
+    ListIterator<int> last = L.last();
     while (last.hasPrev())
     {
         out << *last;
@@ -325,8 +335,8 @@ LongInt *LongInt::handleMultiply(LongInt &a, LongInt &b)
 
 LongInt *LongInt::add(LongInt &a, LongInt &b)
 {
-    ListIterator<int> currA = a.digits.iteratorBegin();
-    ListIterator<int> currB = b.digits.iteratorBegin();
+    ListIterator<int> currA = a.first();
+    ListIterator<int> currB = b.first();
 
     int carry = 0;
 
@@ -357,8 +367,8 @@ LongInt *LongInt::add(LongInt &a, LongInt &b)
 
 LongInt *LongInt::subtract(LongInt &a, LongInt &b)
 {
-    ListIterator<int> currA = a.digits.iteratorBegin();
-    ListIterator<int> currB = b.digits.iteratorBegin();
+    ListIterator<int> currA = a.first();
+    ListIterator<int> currB = b.first();
 
     LongInt *res = new LongInt;
     while (currA.hasNext() || currB.hasNext())
@@ -409,7 +419,7 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
     Matrix left(numLeftRows, numLeftCols);
 
     int row = 0;
-    ListIterator<int> currA = a.digits.iteratorBegin();
+    ListIterator<int> currA = a.first();
     while (currA.hasNext())
     {
         int currRow = row;
@@ -421,7 +431,7 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
 
     // create the right matrix for b
     Matrix right(b.getLength(), 1);
-    ListIterator<int> currB = b.digits.iteratorBegin();
+    ListIterator<int> currB = b.first();
     for (int i = 0; i < b.getLength(); i++)
         right[i][0] = currB.next();
 
