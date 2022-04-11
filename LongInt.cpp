@@ -231,6 +231,16 @@ const LongInt &LongInt::operator*(const LongInt &other)
     return *res;
 }
 
+const LongInt &LongInt::operator/(const LongInt &other)
+{
+    LongInt a = LongInt(*this);
+    LongInt b = LongInt(other);
+
+    LongInt *res = handleDivide(a, b);
+
+    return *res;
+}
+
 LongInt *LongInt::handleSubtract(LongInt &a, LongInt &b)
 {
     LongInt *res;
@@ -356,6 +366,43 @@ LongInt *LongInt::handleMultiply(LongInt &a, LongInt &b)
     // make result negative if exactly one of a or b was negative
     if (!bothSameSign)
         res->isNegative = true;
+
+    return res;
+}
+
+LongInt *LongInt::handleDivide(LongInt &a, LongInt &b)
+{
+    LongInt *res;
+    // TODO: Make class constants for zero, 1, -1?
+    if (b == LongInt(0))
+        throw std::invalid_argument("Division by zero is not allowed");
+
+    else if (a == b)
+        res = new LongInt(1);
+
+    else if (a == (b * -1))
+        res = new LongInt(-1);
+
+    else if (b == LongInt(1))
+        res = new LongInt(a);
+
+    else if (b == LongInt(-1))
+    {
+        res = new LongInt(a);
+        res->isNegative = !res->isNegative;
+    }
+
+    else if (a < b)
+        res = new LongInt(0);
+
+    else
+    {
+        bool bothSameSign = (a.isNegative && b.isNegative) || (!a.isNegative && !b.isNegative);
+        res = divide(a, b);
+
+        if (!bothSameSign)
+            res->isNegative = true;
+    }
 
     return res;
 }
@@ -486,6 +533,73 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
     res->removeTrailingZeroes();
 
     return res;
+}
+
+LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
+{
+    LongInt *res = new LongInt;
+    // Find starting point for the dividend (numerator)
+    // First, find difference in length
+    int k = dividend.getLength() - divisor.getLength();
+    // Set counter i = 0 and LongInt nextDividend
+    int i = 0;
+    ListIterator<int> currDigit = dividend.last();
+    LongInt nextDividend(*currDigit);
+    while (i < k && currDigit.hasPrev() && nextDividend < divisor)
+    {
+        i++;
+        currDigit.prev();
+        nextDividend.insertFirst(*currDigit);
+    }
+
+    // Do long division starting from the starting point
+    int quotient;
+    LongInt *remainder = new LongInt;
+    while (currDigit.hasPrev())
+    {
+        // divide nextDividend by divisor
+        divideNextStep(nextDividend, divisor, quotient, *remainder);
+
+        // add the quotient to the result
+        res->insertFirst(quotient);
+
+        // advance to the next digit in dividend
+        currDigit.prev();
+
+        // update nextDividend
+        if (currDigit.hasPrev())
+        {
+            nextDividend = LongInt(*currDigit);
+            if (*remainder > LongInt(0))
+            {
+                ListIterator<int> currRemainderDigit = remainder->first();
+                while (currRemainderDigit.hasNext())
+                {
+                    nextDividend.insertLast(*currRemainderDigit);
+                    currRemainderDigit.next();
+                }
+            }
+        }
+    }
+
+    return res;
+}
+
+void LongInt::divideNextStep(LongInt &dividend, LongInt &divisor, int &quotient, LongInt &remainder)
+{
+    // copy dividend and divisor
+    LongInt dividendCopy(dividend);
+    LongInt divisorCopy(divisor);
+
+    int count = 0;
+    while (dividendCopy >= divisorCopy)
+    {
+        count++;
+        dividendCopy = dividendCopy - divisorCopy;
+    }
+
+    quotient = count;
+    remainder = dividendCopy;
 }
 
 void LongInt::removeTrailingZeroes()

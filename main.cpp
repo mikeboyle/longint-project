@@ -199,8 +199,28 @@ void testMultiplyAll()
          << "% (" << passed << " of " << total << ")" << endl;
 }
 
+void testDivideAll()
+{
+    LongInt L1(20);
+    LongInt L2(6);
+    LongInt L3(16384);
+    LongInt L4(16);
+    LongInt one(1);
+    LongInt minusOne(-1);
+
+    cout << L1 << " / " << L1 << " = " << L1 / L1 << endl;
+    cout << L1 << " / " << one << " = " << L1 / one << endl;
+    cout << L2 << " / " << minusOne << " = " << L2 / minusOne << endl;
+    cout << L1 << " / " << L1 << " = " << L1 / L1 << endl;
+    LongInt q = L1 / L2;
+    cout << L1 << " / " << L2 << " = " << q << endl;
+    LongInt q2 = L3 / L4;
+    cout << L3 << " / " << L4 << " = " << q2 << endl;
+}
+
 int main()
 {
+    testDivideAll();
     testCompareAll();
     testAddAll();
     testSubtractAll();

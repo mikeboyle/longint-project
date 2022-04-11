@@ -8,16 +8,15 @@
  * TODO: Testing of operations for LongInts beyond normal int max / min
  * TODO: Algorithm for divide?
  * 1. Find starting iteration point
- * 1a. Find the difference in length k, e.g. 16384 vs 16 => k = 3
- * 1b. Set counter i = 0 and LongInt currentDividend
- * 1c. going from original dividend.last -> first...
- *  1d. add current digit to currentDividend. Ex. i = 0, cd = 1->; i=1, cd = 6->1; i=2, cd = 3->6->1; ...
- *  1e. stop if either i >=k OR cd >= divisor. Ex: we stop at i=1, cd= 6->1
- * 2. Base case division of currDividend / divisor: Ex: 16 / 16, 3/7, 110 / 129, 1 / 9
- *  2a. find quotient with repeated subtraction (worst case is 9 subtractions)
- *  2b. else if a == b, return 1
- *  2c. else repeated subtraction; return quotient and remainder (as LongInts?)
- * 3. InsertLast for the result from 5, Ex: 16384 / 16 => 163 / 16 => 16 / 16 => result = 1->
+ * x1a. Find the difference in length k, e.g. 16384 vs 16 => k = 3
+ * x1b. Set counter i = 0 and LongInt currentDividend
+ * x1c. going from original dividend.last -> first...
+ *  x1d. add current digit to currentDividend. Ex. i = 0, cd = 1->; i=1, cd = 6->1; i=2, cd = 3->6->1; ...
+ *  x1e. stop if either i >=k OR cd >= divisor. Ex: we stop at i=1, cd= 6->1
+ * X 2. Base case division of currDividend / divisor: Ex: 16 / 16, 3/7, 110 / 129, 1 / 9
+ *  X2a. find quotient with repeated subtraction (worst case is 9 subtractions)
+ *  X2b. return quotient and remainder (as LongInts?)
+ * 3. InsertLast for the result from 2, Ex: 16384 / 16 => 163 / 16 => 16 / 16 => result = 1->
  * 4. Prepare the next step in division
  *  4a. Advance to the "next digit" (Ex. 3); create a new LongInt with next digit; Ex. LongInt nextDividend(3) 3->
  *  4b. If remainder > 0, add its digits to the next dividend. Ex. 16384 / 120 => 163 / 120; res = 1-> , remainder = 3->4; nextDividend = 8->3->4
@@ -95,6 +94,8 @@ private:
     LongInt *divide(LongInt &, LongInt &);
     // borrow recursively borrows 1 from a digit's neighbors as part of subtraction
     void borrow(ListIterator<int> &);
+    // helper function for dividing TODO: better comment and function name
+    void divideNextStep(LongInt &, LongInt &, int &, LongInt &);
 
 public:
     // Default constructor
