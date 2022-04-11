@@ -20,21 +20,21 @@ private:
     int length;
     // first is a pointer to the first node in the list
     Node<T> *first;
-    
+
     // last is a pointer to the last node in the list
     Node<T> *last;
-    
+
     // destroyList deletes all existing list items and reinitializes
     // the doubly linked list with length = 0, first = last = NULL
     void destroyList();
-    
+
     // findNode uses sequential search to find the node in the list
     // that contains the item. It then returns a pointer to that node.
     // If the item does not exist, findNode returns a null pointer.
     // I extracted this code into a private service function because it is used
     // by both deleteItem and searchItem.
     Node<T> *findNode(const T &) const;
-    
+
     // copyList copies the items from another list into the current list.
     // If the current list already contains nodes, they are first deleted.
     void copyList(const DoublyLinkedList<T> &);
@@ -72,9 +72,9 @@ public:
     // If the same item appears more than once in the list, only the first one is deleted.
     void deleteItem(const T &);
     // iteratorBegin returns an iterator at the first item
-    ListIterator<T> iteratorBegin();
+    const ListIterator<T> iteratorBegin() const;
     // iteratorEnd retursn an interator at the last item
-    ListIterator<T> iteratorEnd();
+    const ListIterator<T> iteratorEnd() const;
 };
 
 #endif

@@ -305,7 +305,7 @@ Node<T> *DoublyLinkedList<T>::findNode(const T &item) const
 }
 
 template <class T>
-ListIterator<T> DoublyLinkedList<T>::iteratorBegin()
+const ListIterator<T> DoublyLinkedList<T>::iteratorBegin() const
 {
     ListIterator<T> iterator(first);
 
@@ -313,7 +313,7 @@ ListIterator<T> DoublyLinkedList<T>::iteratorBegin()
 }
 
 template <class T>
-ListIterator<T> DoublyLinkedList<T>::iteratorEnd()
+const ListIterator<T> DoublyLinkedList<T>::iteratorEnd() const
 {
     ListIterator<T> iterator(last);
 

@@ -95,8 +95,7 @@ int LongInt::compare(LongInt &other)
     return 0;
 }
 
-// TODO: Modify iterator class & methods so &L can be const
-ostream &operator<<(ostream &out, LongInt &L)
+ostream &operator<<(ostream &out, const LongInt &L)
 {
     if (L.isNegative)
         out << "-";
@@ -171,7 +170,7 @@ bool LongInt::operator>=(LongInt &other)
     return compare(other) >= 0;
 }
 
-LongInt &LongInt::operator+(LongInt &other)
+const LongInt &LongInt::operator+(LongInt &other)
 {
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);
@@ -180,12 +179,22 @@ LongInt &LongInt::operator+(LongInt &other)
     return *res;
 }
 
-LongInt &LongInt::operator-(LongInt &other)
+const LongInt &LongInt::operator-(LongInt &other)
 {
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);
 
     LongInt *res = handleSubtract(a, b);
+
+    return *res;
+}
+
+const LongInt &LongInt::operator*(LongInt &other)
+{
+    LongInt a = LongInt(*this);
+    LongInt b = LongInt(other);
+
+    LongInt *res = handleMultiply(a, b);
 
     return *res;
 }
@@ -290,6 +299,21 @@ LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
         {
             res = add(a, b);
         }
+    }
+
+    return res;
+}
+
+LongInt *LongInt::handleMultiply(LongInt &a, LongInt &b)
+{
+    LongInt *res;
+
+    bool bothSameSign = (a.isNegative && b.isNegative) || (!a.isNegative && !b.isNegative);
+    if (bothSameSign)
+    {
+    }
+    else
+    {
     }
 
     return res;

@@ -32,7 +32,7 @@ class LongInt
 {
 
     // Overload operator <<
-    friend ostream &operator<<(ostream &, LongInt &);
+    friend ostream &operator<<(ostream &, const LongInt &);
     // Overload operator >>
     friend istream &operator>>(istream &, LongInt &);
 
@@ -50,19 +50,19 @@ private:
     // handleSubtract determines which computation to perform when the '-' operator is called
     LongInt *handleSubtract(LongInt &, LongInt &);
     // handleMultiply determines which computation to perform when the '*' operator is called
-    const LongInt &handleMultiply(LongInt &);
+    LongInt *handleMultiply(LongInt &, LongInt &);
     // handleDivide determines which computation to perform when the '/' operator is called
-    const LongInt &handleDivide(LongInt &);
+    LongInt *handleDivide(LongInt &, LongInt &);
     // handleModulo determines which computation to perform when the '%' operator is called
-    const LongInt &handleModulo(LongInt &);
+    LongInt *handleModulo(LongInt &, LongInt &);
     // add returns the sum of two LongInts
     LongInt *add(LongInt &, LongInt &);
     // subtract returns the difference of two LongInts (first arg minus second arg)
     LongInt *subtract(LongInt &, LongInt &);
     // multiply returns the product of two LongInts
-    const LongInt &multiply(LongInt &, LongInt &);
+    LongInt &multiply(LongInt &, LongInt &);
     // divide returns the quotient of two LongInts (first arg divided by second arg)
-    const LongInt &divide(LongInt &, LongInt &);
+    LongInt &divide(LongInt &, LongInt &);
     // borrow recursively borrows 1 from a digit's neighbors as part of subtraction
     void borrow(ListIterator<int> &);
 
@@ -100,9 +100,9 @@ public:
     // Overload operator >=
     bool operator>=(LongInt &);
     // Overload operator +
-    LongInt &operator+(LongInt &);
+    const LongInt &operator+(LongInt &);
     // Overload operator -
-    LongInt &operator-(LongInt &);
+    const LongInt &operator-(LongInt &);
     // Overload operator *
     const LongInt &operator*(LongInt &);
     // Overload operator /
