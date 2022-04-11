@@ -24,13 +24,13 @@ LongInt::LongInt(const int &num)
 {
     isNegative = num < 0;
     if (num == 0)
-        digits.insertLast(0);
+        insertLast(0);
 
     // copy num and add digits
     int number = abs(num);
     while (number > 0)
     {
-        digits.insertLast(number % 10);
+        insertLast(number % 10);
         number = number / 10;
     }
 }
@@ -68,6 +68,16 @@ ListIterator<int> LongInt::first() const
 ListIterator<int> LongInt::last() const
 {
     return digits.iteratorEnd();
+}
+
+void LongInt::insertFirst(const int &item)
+{
+    digits.insertFirst(item);
+}
+
+void LongInt::insertLast(const int &item)
+{
+    digits.insertLast(item);
 }
 
 int LongInt::compare(LongInt &other)
@@ -143,7 +153,7 @@ istream &operator>>(istream &in, LongInt &L)
         {
             isFirstDigit = false; // set flag to false
             in >> currChar;
-            L.digits.insertFirst(L.charToDigit(currChar));
+            L.insertFirst(L.charToDigit(currChar));
         }
     }
 
@@ -347,7 +357,7 @@ LongInt *LongInt::add(LongInt &a, LongInt &b)
         int digitB = currB.hasNext() ? *currB : 0;
 
         int sum = digitA + digitB + carry; // add the digits
-        res->digits.insertLast(sum % 10);  // add to sum
+        res->insertLast(sum % 10);         // add to sum
         carry = sum / 10;                  // carry over
 
         // advance iterators if they are not already finished
@@ -359,7 +369,7 @@ LongInt *LongInt::add(LongInt &a, LongInt &b)
 
     // add any remaining carry
     if (carry > 0)
-        res->digits.insertLast(carry);
+        res->insertLast(carry);
 
     // return the result
     return res;
@@ -387,7 +397,7 @@ LongInt *LongInt::subtract(LongInt &a, LongInt &b)
         }
         // subtract the current digits
 
-        res->digits.insertLast(digitA - digitB);
+        res->insertLast(digitA - digitB);
         // advance iterators if they are not already finished
         if (currA.hasNext())
             currA.next();
@@ -445,7 +455,7 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
     for (int row = 0; row < product.getHeight(); row++)
     {
         num = product[row][0];
-        res->digits.insertLast((num + carry) % 10);
+        res->insertLast((num + carry) % 10);
         carry = (num + carry) / 10;
     }
 

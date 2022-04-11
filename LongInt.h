@@ -90,6 +90,12 @@ public:
     // last() returns an iterator at the last digit in the LongInt
     ListIterator<int> last() const;
 
+    // insertFirst() adds a digit to the front of the LongInt
+    void insertFirst(const int &);
+
+    // insertLast() adds a digit to the back of the LongInt
+    void insertLast(const int &);
+
     // OPERATOR OVERLOADS
     // TODO: Modify iterator so we can use const lvalues here
     // Overload operator =
