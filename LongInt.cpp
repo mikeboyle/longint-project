@@ -311,7 +311,8 @@ LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
         {
             // TODO: Should be a call to handleSubtract(b, a) to catch all cases
             // For now this can only handle a "straightforward" b - a where abs(a) < abs(b)
-            res = subtract(b, a);
+            a.isNegative = false;
+            res = handleSubtract(b, a);
         }
     }
     else
@@ -320,7 +321,8 @@ LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
         {
             // TODO: Should be a call to handleSubtract(a, b) to catch all cases
             // For now this can only handle a "straightforward" a - b where abs(b) < abs(a)
-            res = subtract(a, b);
+            b.isNegative = false;
+            res = handleSubtract(a, b);
         }
         else
         {
@@ -334,6 +336,14 @@ LongInt *LongInt::handleAdd(LongInt &a, LongInt &b)
 LongInt *LongInt::handleMultiply(LongInt &a, LongInt &b)
 {
     LongInt *res;
+
+    // Check for multiplication by zero
+    LongInt zero(0);
+    if (a == zero || b == zero)
+    {
+        res = new LongInt(0);
+        return res;
+    }
 
     // were a and b both positive or both negative? check and save.
     bool bothSameSign = (a.isNegative && b.isNegative) || (!a.isNegative && !b.isNegative);
@@ -411,6 +421,15 @@ LongInt *LongInt::subtract(LongInt &a, LongInt &b)
         if (currB.hasNext())
             currB.next();
     }
+
+    // TODO: extract to common method
+    // remove trailing zeroes, if any
+    ListIterator<int> resLast = res->last();
+    while (res->getLength() > 1 && *resLast == 0)
+    {
+        resLast.prev();
+        res->digits.deleteLast();
+    }
     return res;
 }
 
@@ -464,6 +483,19 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
         num = product[row][0];
         res->insertLast((num + carry) % 10);
         carry = (num + carry) / 10;
+    }
+
+    // add any leftover
+    if (carry > 0)
+        res->insertLast(carry);
+
+    // TODO: extract to common method
+    // remove trailing zeroes
+    ListIterator<int> resLast = res->last();
+    while (res->getLength() > 1 && *resLast == 0)
+    {
+        resLast.prev();
+        res->digits.deleteLast();
     }
 
     return res;

@@ -48,8 +48,8 @@ void testCompareAll()
     passed += testCompare(19000, 15999);
     passed += testCompare(-19000, -15999);
 
-    cout << "test comparision operators | passed "
-         << passed << " of " << total << endl;
+    cout << "test comparison | passed " << (passed / total) * 100 << "% ("
+         << passed << " of " << total << ")" << endl;
 }
 
 bool testAdd(const int &a, const int &b)
@@ -72,10 +72,13 @@ bool testAdd(const int &a, const int &b)
 
 void testAddAll()
 {
-    // Both positive
-    int total = 6;
+    int total = 9;
     int passed = 0;
 
+    // Specific cases
+    passed += testAdd(-1001, 4);
+    passed += testAdd(-525, 9157);
+    passed += testAdd(266, -11296);
     passed += testAdd(34, 68);
     passed += testAdd(68, 34);
     passed += testAdd(-34, -68);
@@ -83,7 +86,18 @@ void testAddAll()
     passed += testAdd(-27, 64);
     passed += testAdd(64, -27);
 
-    cout << "test addition | passed " << passed << " of " << total << endl;
+    // Broad check
+    for (int a = -1001; a < 1001; a += 7)
+    {
+        for (int b = -100001; b < 100001; b += 113)
+        {
+            total++;
+            passed += testAdd(a, b);
+        }
+    }
+
+    cout << "test addition | passed " << (passed / total) * 100 << "% ("
+         << passed << " of " << total << ")" << endl;
 }
 
 void testSingleSubtract(LongInt &a, LongInt &b)
@@ -91,42 +105,52 @@ void testSingleSubtract(LongInt &a, LongInt &b)
     cout << a << " - " << b << " = " << a - b << endl;
 }
 
-void testSubtract()
+bool testSubtract(const int &a, const int &b)
 {
-    LongInt L1(7002);
-    LongInt L2(5808);
-    LongInt difference;
-    difference = L1 - L2;
+    LongInt L1(a);
+    LongInt L2(b);
 
-    cout << L1 << " - " << L2 << " = " << difference << endl;
+    string expected = to_string(a - b);
+    string actual = (L1 - L2).toString();
 
-    LongInt L3(-30);
-    LongInt L4(-20);
-    LongInt L5(20);
-    LongInt L6(30);
+    if (expected != actual)
+    {
+        cout << "Uh oh! Expected " << a << " - " << b << " = " << expected
+             << " but got: " << actual << endl;
+        return false;
+    }
 
-    // Case: a == b
-    cout << L5 << " - " << L5 << " = " << L5 - L5 << endl;
+    return true;
+}
 
-    // Cases where a > b
-    // a > b and both positive
-    testSingleSubtract(L6, L5);
+void testSubtractAll()
+{
+    int total = 9;
+    int passed = 0;
 
-    // a > b, a is positive and b is neg
-    testSingleSubtract(L6, L4);
+    // Specific cases
+    passed += testSubtract(7002, 5808);
+    passed += testSubtract(20, 20);
+    passed += testSubtract(-20, -20);
+    passed += testSubtract(30, 20);
+    passed += testSubtract(30, -20);
+    passed += testSubtract(-20, -30);
+    passed += testSubtract(20, 30);
+    passed += testSubtract(-20, 30);
+    passed += testSubtract(-30, -20);
 
-    // a > b, both negative
-    testSingleSubtract(L4, L3);
+    // broad check
+    for (int a = -1001; a < 1001; a += 7)
+    {
+        for (int b = -100001; b < 100001; b += 113)
+        {
+            total++;
+            passed += testSubtract(a, b);
+        }
+    }
 
-    // Cases where a < b
-    // a < b and both positive
-    testSingleSubtract(L5, L6);
-
-    // a < b, a is neg and b is pos
-    testSingleSubtract(L4, L6);
-
-    // a < b, both negative
-    testSingleSubtract(L3, L4);
+    cout << "test subtraction | passed " << (passed / total) * 100 << "% ("
+         << passed << " of " << total << ")" << endl;
 }
 
 void testSingleMultiply(LongInt &a, LongInt &b)
@@ -134,27 +158,48 @@ void testSingleMultiply(LongInt &a, LongInt &b)
     cout << a << " * " << b << " = " << a * b << endl;
 }
 
-void testMultiply()
+bool testMultiply(const int &a, const int &b)
 {
-    LongInt L1(123);
-    LongInt L2(321);
-    LongInt L3(-123);
-    LongInt L4(-321);
+    LongInt L1(a);
+    LongInt L2(b);
 
-    testSingleMultiply(L1, L2);
-    testSingleMultiply(L2, L1);
-    testSingleMultiply(L1, L4);
-    testSingleMultiply(L4, L1);
-    testSingleMultiply(L2, L3);
-    testSingleMultiply(L3, L2);
-    testSingleMultiply(L3, L4);
-    testSingleMultiply(L4, L3);
+    string expected = to_string(a * b);
+    string actual = (L1 * L2).toString();
+
+    if (expected != actual)
+    {
+        cout << "Uh oh! Expected " << a << " * " << b << " = " << expected
+             << " but got: " << actual << endl;
+        return false;
+    }
+
+    return true;
+}
+
+void testMultiplyAll()
+{
+    int total = 2;
+    int passed = 0;
+
+    passed += testMultiply(347, 0);
+    passed += testMultiply(0, 347);
+
+    for (int a = -1001; a < 1001; a += 7)
+    {
+        for (int b = -100001; b < 100001; b += 113)
+        {
+            total++;
+            passed += testMultiply(a, b);
+        }
+    }
+    cout << "test multiply | passed " << (passed / total) * 100 << "% ("
+         << passed << " of " << total << ")" << endl;
 }
 
 int main()
 {
     testCompareAll();
     testAddAll();
-    // testSubtract();
-    // testMultiply();
+    testSubtractAll();
+    testMultiplyAll();
 }
