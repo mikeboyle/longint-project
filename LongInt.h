@@ -7,6 +7,12 @@
  * TODO: Algorithm for divide?
  * TODO: Cases for handleDivide (easy-ish), handleModulo (?)
  *
+ * for a / b:
+ * if a < b: return zero
+ * if both same sign: return positive result
+ * if different signs: return result as negative number
+ *
+ *
  *
  * for a % b: IF BOTH SAME SIGN
  * if a == b: return 0
@@ -90,6 +96,12 @@ public:
 
     // insertLast() adds a digit to the back of the LongInt
     void insertLast(const int &);
+
+    // deleteLast() removes the digit at the back of the LongInt
+    void deleteLast();
+
+    // removeTrailingZeroes removes the trailing zeros in a LongInt, ex: "0001" should just be "1"
+    void removeTrailingZeroes();
 
     // toString() returns a string representation of the LongInt
     string toString() const;

@@ -80,6 +80,11 @@ void LongInt::insertLast(const int &item)
     digits.insertLast(item);
 }
 
+void LongInt::deleteLast()
+{
+    digits.deleteLast();
+}
+
 string LongInt::toString() const
 {
     stringstream out;
@@ -409,8 +414,8 @@ LongInt *LongInt::subtract(LongInt &a, LongInt &b)
             digitA = *currA;
         }
         // subtract the current digits
-
         res->insertLast(digitA - digitB);
+
         // advance iterators if they are not already finished
         if (currA.hasNext())
             currA.next();
@@ -418,14 +423,8 @@ LongInt *LongInt::subtract(LongInt &a, LongInt &b)
             currB.next();
     }
 
-    // TODO: extract to common method
-    // remove trailing zeroes, if any
-    ListIterator<int> resLast = res->last();
-    while (res->getLength() > 1 && *resLast == 0)
-    {
-        resLast.prev();
-        res->digits.deleteLast();
-    }
+    // remove trailing zeroes and return
+    res->removeTrailingZeroes();
     return res;
 }
 
@@ -481,18 +480,21 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
         carry = (num + carry) / 10;
     }
 
-    // add any leftover
+    // add any leftover and remove trailing zeroes
     if (carry > 0)
         res->insertLast(carry);
 
-    // TODO: extract to common method
-    // remove trailing zeroes
-    ListIterator<int> resLast = res->last();
-    while (res->getLength() > 1 && *resLast == 0)
-    {
-        resLast.prev();
-        res->digits.deleteLast();
-    }
+    res->removeTrailingZeroes();
 
     return res;
+}
+
+void LongInt::removeTrailingZeroes()
+{
+    ListIterator<int> lastDigit = last();
+    while (getLength() > 1 && *lastDigit == 0)
+    {
+        lastDigit.prev();
+        deleteLast();
+    }
 }
