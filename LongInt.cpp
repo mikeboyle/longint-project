@@ -197,7 +197,7 @@ bool LongInt::operator>=(const LongInt &other)
     return compare(other) >= 0;
 }
 
-const LongInt &LongInt::operator+(LongInt &other)
+const LongInt &LongInt::operator+(const LongInt &other)
 {
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);
@@ -206,7 +206,7 @@ const LongInt &LongInt::operator+(LongInt &other)
     return *res;
 }
 
-const LongInt &LongInt::operator-(LongInt &other)
+const LongInt &LongInt::operator-(const LongInt &other)
 {
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);
@@ -216,7 +216,7 @@ const LongInt &LongInt::operator-(LongInt &other)
     return *res;
 }
 
-const LongInt &LongInt::operator*(LongInt &other)
+const LongInt &LongInt::operator*(const LongInt &other)
 {
     LongInt a = LongInt(*this);
     LongInt b = LongInt(other);

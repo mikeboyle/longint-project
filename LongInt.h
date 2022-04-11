@@ -111,15 +111,15 @@ public:
     // Overload operator >=
     bool operator>=(const LongInt &);
     // Overload operator +
-    const LongInt &operator+(LongInt &);
+    const LongInt &operator+(const LongInt &);
     // Overload operator -
-    const LongInt &operator-(LongInt &);
+    const LongInt &operator-(const LongInt &);
     // Overload operator *
-    const LongInt &operator*(LongInt &);
+    const LongInt &operator*(const LongInt &);
     // Overload operator /
-    const LongInt &operator/(LongInt &);
+    const LongInt &operator/(const LongInt &);
     // Overload operator %
-    const LongInt &operator%(LongInt &);
+    const LongInt &operator%(const LongInt &);
 };
 
 #endif
