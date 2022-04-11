@@ -1,38 +1,54 @@
 #include <iostream>
+#include <string>
 #include "LongInt.h"
 
 using namespace std;
 
-void testCompare(int a, int b)
+bool testCompare(int a, int b)
 {
     LongInt L1(a);
     LongInt L2(b);
-    cout << endl;
-    cout << "L1 = " << L1 << endl;
-    cout << "L2 = " << L2 << endl;
 
-    cout << L2 << " == " << L1 << ": " << (L2 == L1 ? "true" : "false") << endl;
-    cout << L2 << " != " << L1 << ": " << (L2 != L1 ? "true" : "false") << endl;
-    cout << L2 << " <  " << L1 << ": " << (L2 < L1 ? "true" : "false") << endl;
-    cout << L2 << " <= " << L1 << ": " << (L2 <= L1 ? "true" : "false") << endl;
-    cout << L2 << " >  " << L1 << ": " << (L2 > L1 ? "true" : "false") << endl;
-    cout << L2 << " >= " << L1 << ": " << (L2 >= L1 ? "true" : "false") << endl;
+    int numOps = 6;
+    string boolToString[] = {"false", "true"};
+    string ops[] = {"==", "!=", "<", "<=", ">", ">="};
+    bool expected[] = {(a == b), (a != b), (a < b), (a <= b), (a > b), (a >= b)};
+    bool actual[] = {(L1 == L2), (L1 != L2), (L1 < L2), (L1 <= L2), (L1 > L2), (L1 >= L2)};
+
+    for (int i = 0; i < numOps; i++)
+    {
+        bool currExpected = expected[i];
+        bool currActual = actual[i];
+        if (currExpected != currActual)
+        {
+            cout << "Uh-oh! Expected " << L1 << " " << ops[i] << " " << L2
+                 << " to be " << boolToString[currExpected] << " but got: "
+                 << boolToString[currActual] << endl;
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void testCompareAll()
 {
-    testCompare(12345, 12345);
-    testCompare(-12345, -12345);
-    testCompare(-12345, 12345);
-    testCompare(12345, -12345);
-    testCompare(1234, 12345);
-    testCompare(-1234, -12345);
-    testCompare(12345, 1234);
-    testCompare(-12345, -1234);
-    testCompare(12345, 10095);
-    testCompare(-12345, -10095);
-    testCompare(19000, 15999);
-    testCompare(-19000, -15999);
+    int total = 12;
+    int passed = 0;
+    passed += testCompare(12345, 12345);
+    passed += testCompare(-12345, -12345);
+    passed += testCompare(-12345, 12345);
+    passed += testCompare(12345, -12345);
+    passed += testCompare(1234, 12345);
+    passed += testCompare(-1234, -12345);
+    passed += testCompare(12345, 1234);
+    passed += testCompare(-12345, -1234);
+    passed += testCompare(12345, 10095);
+    passed += testCompare(-12345, -10095);
+    passed += testCompare(19000, 15999);
+    passed += testCompare(-19000, -15999);
+
+    cout << "test comparision operators | passed " << passed << " of " << total << endl;
 }
 
 void testAdd()
@@ -137,8 +153,8 @@ void testMultiply()
 
 int main()
 {
-    testAdd();
-    testSubtract();
     testCompareAll();
-    testMultiply();
+    // testAdd();
+    // testSubtract();
+    // testMultiply();
 }
