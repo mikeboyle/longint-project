@@ -76,8 +76,6 @@ public:
     LongInt(int *, int, bool = false);
     // Construct a LongInt from an int
     LongInt(const int &);
-    // Copy constructor
-    LongInt(const LongInt &);
     // Destructor
     ~LongInt();
 

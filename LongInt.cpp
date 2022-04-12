@@ -43,12 +43,6 @@ LongInt::LongInt(const int &num)
     }
 }
 
-LongInt::LongInt(const LongInt &other)
-{
-    isNegative = other.isNegative;
-    digits = other.digits;
-}
-
 const LongInt &LongInt::operator=(const LongInt &other)
 {
     if (this != &other)
