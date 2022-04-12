@@ -76,8 +76,6 @@ public:
     LongInt(int *, int, bool = false);
     // Construct a LongInt from an int
     LongInt(const int &);
-    // Destructor
-    ~LongInt();
 
     // getLength() returns the number of digits in the LongInt
     int getLength() const;

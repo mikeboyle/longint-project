@@ -53,10 +53,6 @@ const LongInt &LongInt::operator=(const LongInt &other)
     return *this;
 }
 
-LongInt::~LongInt()
-{
-}
-
 int LongInt::getLength() const
 {
     return digits.getLength();
