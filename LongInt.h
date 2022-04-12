@@ -4,14 +4,17 @@
  * @brief Header file for LongInt class
  * @date 2022-04-29
  *
- * TODO: String constructor
- * TODO: Testing of operations for LongInts beyond normal int max / min
+ * TODO: Robust testing of operations for LongInts beyond normal int max / min
  *
  * TODO: modulo cases
  * for a % b: IF BOTH SAME SIGN
  * if a == b: return 0
  * if a < b: return a
  * else return a - (b * (a/b))
+ *
+ * TODO: Modulo testing
+ * TODO: README and other documentation
+ *
  */
 #ifndef LONG_INT_H
 #define LONG_INT_H
