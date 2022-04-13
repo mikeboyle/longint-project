@@ -49,12 +49,14 @@ bool testFunc(const int &a, const int &b, char op)
     return expected == actual;
 }
 
-void displayTestProgress(double passed, double total)
+void displayTestProgress(double passed, double total, int a, int b, char op)
 {
     if ((int)passed % 5317 == 0 || passed == total)
     {
         cout << "passed " << (int)((passed / total) * 100)
-             << "% (" << passed << " of " << total << ")\r";
+             << "% (" << passed << " of " << total << ")";
+        cout << "\ttesting " << a << " " << op << " " << b;
+        cout << "\r";
         cout.flush();
     }
 }
@@ -85,15 +87,15 @@ void testOperation(char op, int lowerA, int upperA, int stepA, int lowerB, int u
                     else
                     {
                         passed += testFunc(a, b, op);
-                        displayTestProgress(passed, total);
+                        displayTestProgress(passed, total, a, b, op);
                     }
                 }
             }
         }
     }
 
-    displayTestProgress(passed, total);
-    cout << endl;
+    cout << "passed " << (int)((passed / total) * 100)
+         << "% (" << passed << " of " << total << ")" << endl;
 }
 
 bool testCompare(int a, int b)
