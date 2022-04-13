@@ -1,8 +1,100 @@
 #include <iostream>
 #include <string>
+#include <functional>
 #include "LongInt.h"
 
 using namespace std;
+
+const bool VERBOSE = false;
+
+bool testFunc(const int &a, const int &b, char op)
+{
+    LongInt L1(a);
+    LongInt L2(b);
+    string expected, actual;
+
+    switch (op)
+    {
+    case '+':
+        expected = to_string(a + b);
+        actual = (L1 + L2).toString();
+        break;
+    case '-':
+        expected = to_string(a - b);
+        actual = (L1 - L2).toString();
+        break;
+    case '*':
+        expected = to_string(a * b);
+        actual = (L1 * L2).toString();
+        break;
+    case '/':
+        expected = to_string(a / b);
+        actual = (L1 / L2).toString();
+        break;
+    case '%':
+        expected = to_string(a % b);
+        actual = (L1 % L2).toString();
+        break;
+    default:
+        cout << "invalid op " << op << endl;
+        return false;
+    }
+
+    if (VERBOSE && expected != actual)
+    {
+        cout << a << " " << op << " " << b << ", expected: " << expected
+             << ", actual: " << actual << endl;
+    }
+
+    return expected == actual;
+}
+
+void displayTestProgress(double passed, double total)
+{
+    if ((int)passed % 5317 == 0 || passed == total)
+    {
+        cout << "passed " << (int)((passed / total) * 100)
+             << "% (" << passed << " of " << total << ")\r";
+        cout.flush();
+    }
+}
+
+void testOperation(char op, int lowerA, int upperA, int stepA, int lowerB, int upperB, int stepB)
+{
+    double passed = 0;
+    double total = 0;
+    bool canCompute = true;
+
+    // loop through all numbers twice; first to get total, then to test
+    for (int i = 0; i < 2; i++)
+    {
+        for (int a = lowerA; a < upperA; a += stepA)
+        {
+            for (int b = lowerB; b < upperB; b += stepB)
+            {
+                // do not divide by zero
+                if ((op == '/' || op == '%') && b == 0)
+                    canCompute = false;
+                else
+                    canCompute = true;
+
+                if (canCompute)
+                {
+                    if (i == 0)
+                        total++;
+                    else
+                    {
+                        passed += testFunc(a, b, op);
+                        displayTestProgress(passed, total);
+                    }
+                }
+            }
+        }
+    }
+
+    displayTestProgress(passed, total);
+    cout << endl;
+}
 
 bool testCompare(int a, int b)
 {
@@ -52,238 +144,6 @@ void testCompareAll()
          << passed << " of " << total << ")" << endl;
 }
 
-bool testAdd(const int &a, const int &b)
-{
-    LongInt L1(a);
-    LongInt L2(b);
-
-    string expected = to_string(a + b);
-    string actual = (L1 + L2).toString();
-
-    if (expected != actual)
-    {
-        cout << "Uh oh! Expected " << a << " + " << b << " = " << expected
-             << " but got: " << actual << endl;
-        return false;
-    }
-
-    return true;
-}
-
-void displayTestProgress(double passed, double total)
-{
-    cout << "passed " << (int)((passed / total) * 100)
-         << "% (" << passed << " of " << total << ")\r";
-    cout.flush();
-}
-
-void testAddAll()
-{
-    cout << "testing addition ... " << endl;
-    double total = 9;
-    double passed = 0;
-
-    // Specific cases
-    passed += testAdd(-1001, 4);
-    passed += testAdd(-525, 9157);
-    passed += testAdd(266, -11296);
-    passed += testAdd(34, 68);
-    passed += testAdd(68, 34);
-    passed += testAdd(-34, -68);
-    passed += testAdd(-68, -34);
-    passed += testAdd(-27, 64);
-    passed += testAdd(64, -27);
-
-    // Broad check
-    for (int i = 0; i < 2; i++)
-    {
-        // first loop get the total; then do the calculations
-        for (int a = -1001; a < 1001; a += 7)
-        {
-            for (int b = -100001; b < 100001; b += 113)
-            {
-                if (i == 0)
-                    total++;
-                else
-                {
-                    passed += testAdd(a, b);
-                    displayTestProgress(passed, total);
-                }
-            }
-        }
-    }
-    displayTestProgress(passed, total);
-    cout << endl;
-}
-
-void testSingleSubtract(LongInt &a, LongInt &b)
-{
-    cout << a << " - " << b << " = " << a - b << endl;
-}
-
-bool testSubtract(const int &a, const int &b)
-{
-    LongInt L1(a);
-    LongInt L2(b);
-
-    string expected = to_string(a - b);
-    string actual = (L1 - L2).toString();
-
-    if (expected != actual)
-    {
-        cout << "Uh oh! Expected " << a << " - " << b << " = " << expected
-             << " but got: " << actual << endl;
-        return false;
-    }
-
-    return true;
-}
-
-void testSubtractAll()
-{
-    cout << "testing subtraction ... " << endl;
-    double total = 9;
-    double passed = 0;
-
-    // Specific cases
-    passed += testSubtract(7002, 5808);
-    passed += testSubtract(20, 20);
-    passed += testSubtract(-20, -20);
-    passed += testSubtract(30, 20);
-    passed += testSubtract(30, -20);
-    passed += testSubtract(-20, -30);
-    passed += testSubtract(20, 30);
-    passed += testSubtract(-20, 30);
-    passed += testSubtract(-30, -20);
-
-    // broad check
-    for (int i = 0; i < 2; i++)
-    {
-        for (int a = -1001; a < 1001; a += 7)
-        {
-            for (int b = -100001; b < 100001; b += 113)
-            {
-                if (i == 0)
-                    total++;
-                else
-                {
-                    passed += testSubtract(a, b);
-                    displayTestProgress(passed, total);
-                }
-            }
-        }
-    }
-    displayTestProgress(passed, total);
-    cout << endl;
-}
-
-void testSingleMultiply(LongInt &a, LongInt &b)
-{
-    cout << a << " * " << b << " = " << a * b << endl;
-}
-
-bool testMultiply(const int &a, const int &b)
-{
-    LongInt L1(a);
-    LongInt L2(b);
-
-    string expected = to_string(a * b);
-    string actual = (L1 * L2).toString();
-
-    if (expected != actual)
-    {
-        cout << "Uh oh! Expected " << a << " * " << b << " = " << expected
-             << " but got: " << actual << endl;
-        return false;
-    }
-
-    return true;
-}
-
-void testMultiplyAll()
-{
-    cout << "testing multiplication ... " << endl;
-    double total = 2;
-    double passed = 0;
-
-    passed += testMultiply(347, 0);
-    passed += testMultiply(0, 347);
-
-    for (int i = 0; i < 2; i++)
-    {
-        for (int a = -1001; a < 1001; a += 7)
-        {
-            for (int b = -100001; b < 100001; b += 113)
-            {
-                if (i == 0)
-                    total++;
-                else
-                {
-                    passed += testMultiply(a, b);
-                    displayTestProgress(passed, total);
-                }
-            }
-        }
-    }
-    displayTestProgress(passed, total);
-    cout << endl;
-}
-
-bool testDivide(const int &a, const int &b)
-{
-    LongInt L1(a);
-    LongInt L2(b);
-
-    string expected = to_string(a / b);
-    string actual = (L1 / L2).toString();
-
-    if (expected != actual)
-    {
-        cout << "Uh oh! Expected " << a << " / " << b << " = " << expected
-             << " but got: " << actual << endl;
-        return false;
-    }
-
-    return true;
-}
-
-void testDivideAll()
-{
-    cout << "testing division ... " << endl;
-    double total = 6;
-    double passed = 0;
-
-    passed += testDivide(20, 20);
-    passed += testDivide(20, 1);
-    passed += testDivide(6, -1);
-    passed += testDivide(20, 6);
-    passed += testDivide(6, 20);
-    passed += testDivide(16384, 16);
-
-    for (int i = 0; i < 2; i++)
-    {
-        for (int a = -100001; a < 100001; a += 113)
-        {
-            for (int b = -1001; b < 1001; b += 7)
-            {
-                if (b != 0)
-                {
-                    if (i == 0)
-                        total++;
-                    else
-                    {
-                        passed += testDivide(a, b);
-                        displayTestProgress(passed, total);
-                    }
-                }
-            }
-        }
-    }
-
-    displayTestProgress(passed, total);
-    cout << endl;
-}
-
 void testVeryLongInts()
 {
     string ones = "1111111111111111111111111";
@@ -310,46 +170,34 @@ void testVeryLongInts()
          << "121932631112635269" << endl;
 }
 
-void testModulo()
+void testAddAll()
 {
-    cout << "testing modulo ... " << endl;
-    double passed = 0;
-    double total = 0;
-    string expected, actual;
-    LongInt L1, L2;
-    for (int i = 0; i < 2; i++)
-    {
-        for (int a = -1000; a < 1001; a++)
-        {
-            L1 = LongInt(a);
-            for (int b = a - 1; b < (-1 * a + 1); b += 2)
-            {
-                if (b != 0)
-                {
-                    if (i == 0)
-                        total++;
-                    else
-                    {
-                        L2 = LongInt(b);
-                        expected = to_string(a % b);
-                        actual = (L1 % L2).toString();
+    cout << "testing addition..." << endl;
+    testOperation('+', -1001, 1001, 7, -100001, 100001, 113);
+}
 
-                        if (expected != actual)
-                        {
-                            cout << "Uh oh! Expected " << a << " % " << b << " = " << expected
-                                 << " but got: " << actual << endl;
-                        }
-                        else
-                            passed++;
+void testSubtractAll()
+{
+    cout << "testing subtraction..." << endl;
+    testOperation('-', -1001, 1001, 7, -100001, 100001, 113);
+}
 
-                        displayTestProgress(passed, total);
-                    }
-                }
-            }
-        }
-    }
-    displayTestProgress(passed, total);
-    cout << endl;
+void testMultiplyAll()
+{
+    cout << "testing multiplication..." << endl;
+    testOperation('*', -1001, 1001, 7, -100001, 100001, 113);
+}
+
+void testDivideAll()
+{
+    cout << "testing division..." << endl;
+    testOperation('/', -100001, 100001, 113, -1001, 1001, 7);
+}
+
+void testModuloAll()
+{
+    cout << "testing modulo..." << endl;
+    testOperation('%', -1001, 1001, 11, -1001, 1001, 1);
 }
 
 int main()
@@ -359,6 +207,6 @@ int main()
     testSubtractAll();
     testMultiplyAll();
     testDivideAll();
-    testModulo();
+    testModuloAll();
     testVeryLongInts();
 }
