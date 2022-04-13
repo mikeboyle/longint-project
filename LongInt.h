@@ -61,7 +61,8 @@ private:
     // multiply returns the product of two LongInts
     LongInt *multiply(LongInt &, LongInt &);
     // divide returns the quotient of two LongInts (first arg divided by second arg)
-    LongInt *divide(LongInt &, LongInt &);
+    // If the last argument is true, it returns the remainder (not the quotient)
+    LongInt *divide(LongInt &, LongInt &, bool = false);
     // borrow recursively borrows 1 from a digit's neighbors as part of subtraction
     void borrow(ListIterator<int> &);
     // divideNextStep performs a single step in long division of two LongInts

@@ -539,12 +539,12 @@ LongInt *LongInt::multiply(LongInt &a, LongInt &b)
     return res;
 }
 
-LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
+LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor, bool returnRemainder)
 {
     LongInt *res = new LongInt;
 
     int quotient;
-    LongInt remainder(0);
+    LongInt *remainder = new LongInt(0);
     ListIterator<int> currRemainderDigit;
     LongInt nextDividend;
     ListIterator<int> currDigit = dividend.last();
@@ -552,9 +552,9 @@ LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
     while (currDigit.hasPrev())
     {
         nextDividend = LongInt(*currDigit);
-        if (remainder > LongInt(0))
+        if (*remainder > LongInt(0))
         {
-            currRemainderDigit = remainder.first();
+            currRemainderDigit = remainder->first();
             while (currRemainderDigit.hasNext())
             {
                 nextDividend.insertLast(*currRemainderDigit);
@@ -563,7 +563,7 @@ LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
         }
 
         // do the next step of long division
-        divideNextStep(nextDividend, divisor, quotient, remainder);
+        divideNextStep(nextDividend, divisor, quotient, *remainder);
 
         // add the step's quotient to the result - but don't add trailing zeroes
         if (quotient != 0 || res->getLength() > 0)
@@ -573,7 +573,10 @@ LongInt *LongInt::divide(LongInt &dividend, LongInt &divisor)
         currDigit.prev();
     }
 
-    return res;
+    if (returnRemainder)
+        return remainder;
+    else
+        return res;
 }
 
 void LongInt::divideNextStep(LongInt &dividend, LongInt &divisor, int &quotient, LongInt &remainder)
