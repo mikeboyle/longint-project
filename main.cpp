@@ -275,9 +275,9 @@ void testVeryLongInts()
 
     LongInt L123("123456789");
     LongInt L321("987654321");
-    cout << L123 << endl;
-    cout << L321 << endl;
-    cout << L123 * L321 << endl;
+    cout << L123 << " * " << L321 << " = " << L123 * L321 << endl;
+    cout << (L123 * L321).toString() << " should = "
+         << "121932631112635269" << endl;
 }
 
 void testModulo()
@@ -319,11 +319,11 @@ void testModulo()
 
 int main()
 {
-    // testVeryLongInts();
     testCompareAll();
     testAddAll();
     testSubtractAll();
     testMultiplyAll();
     testDivideAll();
     testModulo();
+    testVeryLongInts();
 }
