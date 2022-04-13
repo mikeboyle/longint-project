@@ -70,6 +70,13 @@ bool testAdd(const int &a, const int &b)
     return true;
 }
 
+void displayTestProgress(double passed, double total)
+{
+    cout << "passed " << (int)((passed / total) * 100)
+         << "% (" << passed << " of " << total << ")\r";
+    cout.flush();
+}
+
 void testAddAll()
 {
     cout << "testing addition ... " << endl;
@@ -88,19 +95,25 @@ void testAddAll()
     passed += testAdd(64, -27);
 
     // Broad check
-    for (int a = -1001; a < 1001; a += 7)
+    for (int i = 0; i < 2; i++)
     {
-        for (int b = -100001; b < 100001; b += 113)
+        // first loop get the total; then do the calculations
+        for (int a = -1001; a < 1001; a += 7)
         {
-            total++;
-            passed += testAdd(a, b);
-            cout << "passed " << (passed / total) * 100
-                 << "% (" << passed << " of " << total << ")\r";
+            for (int b = -100001; b < 100001; b += 113)
+            {
+                if (i == 0)
+                    total++;
+                else
+                {
+                    passed += testAdd(a, b);
+                    displayTestProgress(passed, total);
+                }
+            }
         }
     }
-
-    cout << "passed " << (passed / total) * 100
-         << "% (" << passed << " of " << total << ")" << endl;
+    displayTestProgress(passed, total);
+    cout << endl;
 }
 
 void testSingleSubtract(LongInt &a, LongInt &b)
@@ -144,19 +157,24 @@ void testSubtractAll()
     passed += testSubtract(-30, -20);
 
     // broad check
-    for (int a = -1001; a < 1001; a += 7)
+    for (int i = 0; i < 2; i++)
     {
-        for (int b = -100001; b < 100001; b += 113)
+        for (int a = -1001; a < 1001; a += 7)
         {
-            total++;
-            passed += testSubtract(a, b);
-            cout << "passed " << (passed / total) * 100
-                 << "% (" << passed << " of " << total << ")\r";
+            for (int b = -100001; b < 100001; b += 113)
+            {
+                if (i == 0)
+                    total++;
+                else
+                {
+                    passed += testSubtract(a, b);
+                    displayTestProgress(passed, total);
+                }
+            }
         }
     }
-
-    cout << "passed " << (passed / total) * 100
-         << "% (" << passed << " of " << total << ")" << endl;
+    displayTestProgress(passed, total);
+    cout << endl;
 }
 
 void testSingleMultiply(LongInt &a, LongInt &b)
@@ -191,18 +209,24 @@ void testMultiplyAll()
     passed += testMultiply(347, 0);
     passed += testMultiply(0, 347);
 
-    for (int a = -1001; a < 1001; a += 7)
+    for (int i = 0; i < 2; i++)
     {
-        for (int b = -100001; b < 100001; b += 113)
+        for (int a = -1001; a < 1001; a += 7)
         {
-            total++;
-            passed += testMultiply(a, b);
-            cout << "passed " << (passed / total) * 100
-                 << "% (" << passed << " of " << total << ")\r";
+            for (int b = -100001; b < 100001; b += 113)
+            {
+                if (i == 0)
+                    total++;
+                else
+                {
+                    passed += testMultiply(a, b);
+                    displayTestProgress(passed, total);
+                }
+            }
         }
     }
-    cout << "passed " << (passed / total) * 100
-         << "% (" << passed << " of " << total << ")" << endl;
+    displayTestProgress(passed, total);
+    cout << endl;
 }
 
 bool testDivide(const int &a, const int &b)
@@ -236,22 +260,28 @@ void testDivideAll()
     passed += testDivide(6, 20);
     passed += testDivide(16384, 16);
 
-    for (int a = -100001; a < 100001; a += 113)
+    for (int i = 0; i < 2; i++)
     {
-        for (int b = -1001; b < 1001; b += 7)
+        for (int a = -100001; a < 100001; a += 113)
         {
-            if (b != 0)
+            for (int b = -1001; b < 1001; b += 7)
             {
-                total++;
-                passed += testDivide(a, b);
-                cout << "passed " << (passed / total) * 100
-                     << "% (" << passed << " of " << total << ")\r";
+                if (b != 0)
+                {
+                    if (i == 0)
+                        total++;
+                    else
+                    {
+                        passed += testDivide(a, b);
+                        displayTestProgress(passed, total);
+                    }
+                }
             }
         }
     }
 
-    cout << "passed " << (passed / total) * 100
-         << "% (" << passed << " of " << total << ")" << endl;
+    displayTestProgress(passed, total);
+    cout << endl;
 }
 
 void testVeryLongInts()
@@ -287,34 +317,39 @@ void testModulo()
     double total = 0;
     string expected, actual;
     LongInt L1, L2;
-    for (int a = -1000; a < 1001; a++)
+    for (int i = 0; i < 2; i++)
     {
-        L1 = LongInt(a);
-        for (int b = a - 1; b < (-1 * a + 1); b += 2)
+        for (int a = -1000; a < 1001; a++)
         {
-            if (b != 0)
+            L1 = LongInt(a);
+            for (int b = a - 1; b < (-1 * a + 1); b += 2)
             {
-                total++;
-                L2 = LongInt(b);
-                expected = to_string(a % b);
-                actual = (L1 % L2).toString();
+                if (b != 0)
+                {
+                    if (i == 0)
+                        total++;
+                    else
+                    {
+                        L2 = LongInt(b);
+                        expected = to_string(a % b);
+                        actual = (L1 % L2).toString();
 
-                if (expected != actual)
-                {
-                    cout << "Uh oh! Expected " << a << " % " << b << " = " << expected
-                         << " but got: " << actual << endl;
-                }
-                else
-                {
-                    passed++;
-                    cout << "passed " << (passed / total) * 100
-                         << "% (" << passed << " of " << total << ")\r";
+                        if (expected != actual)
+                        {
+                            cout << "Uh oh! Expected " << a << " % " << b << " = " << expected
+                                 << " but got: " << actual << endl;
+                        }
+                        else
+                            passed++;
+
+                        displayTestProgress(passed, total);
+                    }
                 }
             }
         }
     }
-    cout << "passed " << (passed / total) * 100
-         << "% (" << passed << " of " << total << ")" << endl;
+    displayTestProgress(passed, total);
+    cout << endl;
 }
 
 int main()
