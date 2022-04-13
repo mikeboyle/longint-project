@@ -239,6 +239,16 @@ const LongInt &LongInt::operator/(const LongInt &other)
     return *res;
 }
 
+const LongInt &LongInt::operator%(const LongInt &other)
+{
+    LongInt a = LongInt(*this);
+    LongInt b = LongInt(other);
+
+    LongInt *res = handleModulo(a, b);
+
+    return *res;
+}
+
 LongInt *LongInt::handleSubtract(LongInt &a, LongInt &b)
 {
     LongInt *res;
@@ -406,6 +416,32 @@ LongInt *LongInt::handleDivide(LongInt &a, LongInt &b)
 
         if (!bothSameSign)
             res->isNegative = true;
+    }
+
+    return res;
+}
+
+LongInt *LongInt::handleModulo(LongInt &a, LongInt &b)
+{
+    LongInt *res;
+    LongInt absA(a);
+    absA.isNegative = false;
+    LongInt absB(b);
+    absB.isNegative = false;
+
+    if (absA < absB)
+        res = new LongInt(a);
+
+    else if (absA == absB)
+        res = new LongInt(0);
+
+    else
+    {
+        // divide and return remainder
+        res = divide(absA, absB, true);
+        // allow for a negative result unless result is zero (no -0 results)
+        if (*res != LongInt(0))
+            res->isNegative = a.isNegative;
     }
 
     return res;

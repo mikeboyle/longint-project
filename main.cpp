@@ -33,8 +33,8 @@ bool testCompare(int a, int b)
 
 void testCompareAll()
 {
-    int total = 12;
-    int passed = 0;
+    double total = 12;
+    double passed = 0;
     passed += testCompare(12345, 12345);
     passed += testCompare(-12345, -12345);
     passed += testCompare(-12345, 12345);
@@ -73,8 +73,8 @@ bool testAdd(const int &a, const int &b)
 void testAddAll()
 {
     cout << "testing addition ... " << endl;
-    int total = 9;
-    int passed = 0;
+    double total = 9;
+    double passed = 0;
 
     // Specific cases
     passed += testAdd(-1001, 4);
@@ -94,6 +94,8 @@ void testAddAll()
         {
             total++;
             passed += testAdd(a, b);
+            cout << "passed " << (passed / total) * 100
+                 << "% (" << passed << " of " << total << ")\r";
         }
     }
 
@@ -127,8 +129,8 @@ bool testSubtract(const int &a, const int &b)
 void testSubtractAll()
 {
     cout << "testing subtraction ... " << endl;
-    int total = 9;
-    int passed = 0;
+    double total = 9;
+    double passed = 0;
 
     // Specific cases
     passed += testSubtract(7002, 5808);
@@ -148,6 +150,8 @@ void testSubtractAll()
         {
             total++;
             passed += testSubtract(a, b);
+            cout << "passed " << (passed / total) * 100
+                 << "% (" << passed << " of " << total << ")\r";
         }
     }
 
@@ -181,8 +185,8 @@ bool testMultiply(const int &a, const int &b)
 void testMultiplyAll()
 {
     cout << "testing multiplication ... " << endl;
-    int total = 2;
-    int passed = 0;
+    double total = 2;
+    double passed = 0;
 
     passed += testMultiply(347, 0);
     passed += testMultiply(0, 347);
@@ -193,6 +197,8 @@ void testMultiplyAll()
         {
             total++;
             passed += testMultiply(a, b);
+            cout << "passed " << (passed / total) * 100
+                 << "% (" << passed << " of " << total << ")\r";
         }
     }
     cout << "passed " << (passed / total) * 100
@@ -220,8 +226,8 @@ bool testDivide(const int &a, const int &b)
 void testDivideAll()
 {
     cout << "testing division ... " << endl;
-    int total = 6;
-    int passed = 0;
+    double total = 6;
+    double passed = 0;
 
     passed += testDivide(20, 20);
     passed += testDivide(20, 1);
@@ -238,6 +244,8 @@ void testDivideAll()
             {
                 total++;
                 passed += testDivide(a, b);
+                cout << "passed " << (passed / total) * 100
+                     << "% (" << passed << " of " << total << ")\r";
             }
         }
     }
@@ -272,12 +280,50 @@ void testVeryLongInts()
     cout << L123 * L321 << endl;
 }
 
+void testModulo()
+{
+    cout << "testing modulo ... " << endl;
+    double passed = 0;
+    double total = 0;
+    string expected, actual;
+    LongInt L1, L2;
+    for (int a = -1000; a < 1001; a++)
+    {
+        L1 = LongInt(a);
+        for (int b = a - 1; b < (-1 * a + 1); b += 2)
+        {
+            if (b != 0)
+            {
+                total++;
+                L2 = LongInt(b);
+                expected = to_string(a % b);
+                actual = (L1 % L2).toString();
+
+                if (expected != actual)
+                {
+                    cout << "Uh oh! Expected " << a << " % " << b << " = " << expected
+                         << " but got: " << actual << endl;
+                }
+                else
+                {
+                    passed++;
+                    cout << "passed " << (passed / total) * 100
+                         << "% (" << passed << " of " << total << ")\r";
+                }
+            }
+        }
+    }
+    cout << "passed " << (passed / total) * 100
+         << "% (" << passed << " of " << total << ")" << endl;
+}
+
 int main()
 {
-    testVeryLongInts();
+    // testVeryLongInts();
     testCompareAll();
     testAddAll();
     testSubtractAll();
     testMultiplyAll();
     testDivideAll();
+    testModulo();
 }
