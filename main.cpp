@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <functional>
 #include "LongInt.h"
 
 using namespace std;
