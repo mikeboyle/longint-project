@@ -6,6 +6,28 @@ using namespace std;
 
 const bool VERBOSE = false;
 
+bool testFunc(const int &, const int &, char);
+void displayProgress(const double &, const double &);
+void testOperation(const char &, const int &, const int &, const int &, const int &, const int &, const int &);
+bool testCompare(const int &, const int &);
+void testCompareAll();
+void testAddAll();
+void testSubtractAll();
+void testMultiplyAll();
+void testDivideAll();
+void testModuloAll();
+void testVeryLongInts();
+
+int main() {
+	testCompareAll();
+	testAddAll();
+	testSubtractAll();
+	testMultiplyAll();
+	testDivideAll();
+	testModuloAll();
+	testVeryLongInts();
+}
+
 bool testFunc(const int &a, const int &b, char op) {
 	LongInt L1(a);
 	LongInt L2(b);
@@ -45,7 +67,7 @@ bool testFunc(const int &a, const int &b, char op) {
 	return expected == actual;
 }
 
-void displayTestProgress(double passed, double total, int a, int b, char op) {
+void displayTestProgress(const double &passed, const double &total) {
 	if ((int)passed % 317 == 0 || passed == total) {
 		cout << "passed " << (int)((passed / total) * 100) << "% (" << passed
 			 << " of " << total << ")"
@@ -55,13 +77,13 @@ void displayTestProgress(double passed, double total, int a, int b, char op) {
 }
 
 void testOperation(
-	char op,
-	int lowerA,
-	int upperA,
-	int stepA,
-	int lowerB,
-	int upperB,
-	int stepB) {
+	const char &op,
+	const int &lowerA,
+	const int &upperA,
+	const int &stepA,
+	const int &lowerB,
+	const int &upperB,
+	const int &stepB) {
 	double passed = 0;
 	double total = 0;
 	bool canCompute = true;
@@ -81,7 +103,7 @@ void testOperation(
 						total++;
 					else {
 						passed += testFunc(a, b, op);
-						displayTestProgress(passed, total, a, b, op);
+						displayTestProgress(passed, total);
 					}
 				}
 			}
@@ -92,7 +114,7 @@ void testOperation(
 		 << " of " << total << ")" << endl;
 }
 
-bool testCompare(int a, int b) {
+bool testCompare(const int &a, const int &b) {
 	LongInt L1(a);
 	LongInt L2(b);
 
@@ -119,6 +141,7 @@ bool testCompare(int a, int b) {
 }
 
 void testCompareAll() {
+  cout << "testing comparison operators..." << endl;
 	double total = 12;
 	double passed = 0;
 	passed += testCompare(12345, 12345);
@@ -134,7 +157,7 @@ void testCompareAll() {
 	passed += testCompare(19000, 15999);
 	passed += testCompare(-19000, -15999);
 
-	cout << "test comparison | passed " << (passed / total) * 100 << "% ("
+	cout << "passed " << (passed / total) * 100 << "% ("
 		 << passed << " of " << total << ")" << endl;
 }
 
@@ -186,14 +209,4 @@ void testDivideAll() {
 void testModuloAll() {
 	cout << "testing modulo..." << endl;
 	testOperation('%', -1001, 1001, 7, -101, 101, 1);
-}
-
-int main() {
-	testCompareAll();
-	testAddAll();
-	testSubtractAll();
-	testMultiplyAll();
-	testDivideAll();
-	testModuloAll();
-	testVeryLongInts();
 }
