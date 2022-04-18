@@ -83,6 +83,11 @@ void LongInt::deleteLast()
     digits.deleteLast();
 }
 
+void LongInt::setIsNegative(const bool &neg)
+{
+  isNegative = neg;
+}
+
 string LongInt::toString() const
 {
     stringstream out;

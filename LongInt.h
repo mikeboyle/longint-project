@@ -89,6 +89,9 @@ public:
     // deleteLast() removes the digit at the back of the LongInt
     void deleteLast();
 
+    // setIsNegative updates the isNegative property
+    void setIsNegative(const bool &);
+
     // removeTrailingZeroes removes the trailing zeros in a LongInt, ex: "0001" should just be "1"
     void removeTrailingZeroes();
 

@@ -7,7 +7,7 @@ using namespace std;
 const bool VERBOSE = false;
 
 bool testFunc(const int &, const int &, char);
-void displayProgress(const double &, const double &);
+void displayTestProgress(const double &, const double &);
 void testOperation(const char &, const int &, const int &, const int &, const int &, const int &, const int &);
 bool testCompare(const int &, const int &);
 void testCompareAll();
@@ -17,15 +17,11 @@ void testMultiplyAll();
 void testDivideAll();
 void testModuloAll();
 void testVeryLongInts();
+void testStringIntOp(const LongInt &, const string &, int &, int &);
+void runAllTestCases();
 
 int main() {
-	testCompareAll();
-	testAddAll();
-	testSubtractAll();
-	testMultiplyAll();
-	testDivideAll();
-	testModuloAll();
-	testVeryLongInts();
+	runAllTestCases();
 }
 
 bool testFunc(const int &a, const int &b, char op) {
@@ -161,52 +157,127 @@ void testCompareAll() {
 		 << passed << " of " << total << ")" << endl;
 }
 
-void testVeryLongInts() {
-	string ones = "1111111111111111111111111";
-	string twos = "2222222222222222222222222";
-	string threes = "3333333333333333333333333";
-
-	LongInt L1(ones);
-	LongInt L2(twos);
-	LongInt L3(threes);
-	LongInt sum = L1 + L2;
-	cout << "expected\t" << threes << endl;
-	cout << "actual\t\t" << sum << endl;
-
-	cout << L1 << " + " << L2 << " = " << sum << endl;
-	cout << L3 << " - " << L2 << " = " << L3 - L2 << endl;
-	LongInt product = L2 * L3;
-	cout << L2 << " * " << L3 << " = " << product << endl;
-	cout << L3 << " / " << L1 << " = " << L3 / L1 << endl;
-
-	LongInt L123("123456789");
-	LongInt L321("987654321");
-	cout << L123 << " * " << L321 << " = " << L123 * L321 << endl;
-	cout << (L123 * L321).toString() << " should = "
-		 << "121932631112635269" << endl;
+void testStringIntOp(const LongInt &actual, const string &expected, int &passed, int &total)
+{
+  total++;
+  if (actual.toString() == expected)
+    passed++;
+  else
+    if (VERBOSE)
+      cout << "fail " << actual << " " << expected << endl;
 }
 
-void testAddAll() {
+void testVeryLongInts() {
+  cout << "testing very long ints..." << endl;
+  int total = 0;
+  int passed = 0;
+  
+  LongInt L1("1111111111111111111111111");
+  LongInt L2("2222222222222222222222222");
+  LongInt L3("3333333333333333333333333");
+  LongInt L19("123456789");
+  LongInt L91("987654321");
+  LongInt negL1(L1);
+  negL1.setIsNegative(true);
+  LongInt negL2(L2);
+  negL2.setIsNegative(true);
+  LongInt negL3(L3);
+  negL3.setIsNegative(true);
+
+  // addition
+  testStringIntOp(L1 + L2, L3.toString(), passed, total);
+  testStringIntOp(L2 + L1, L3.toString(), passed, total);
+  testStringIntOp(negL1 + L2, L1.toString(), passed, total);
+  testStringIntOp(L2 + negL1, L1.toString(), passed, total);
+  testStringIntOp(negL1 + negL2, negL3.toString(), passed, total);
+  testStringIntOp(negL2 + negL1, negL3.toString(), passed, total);
+  testStringIntOp(negL3 + L3, "0", passed, total);
+  testStringIntOp(L3 + negL3, "0", passed, total);
+  testStringIntOp(L19 + L91, "1111111110", passed, total);
+  testStringIntOp(L91 + L19, "1111111110", passed, total);
+  
+  // subtraction
+  testStringIntOp(L3 - L2, L1.toString(), passed, total);
+  testStringIntOp(L2 - L3, negL1.toString(), passed, total);
+  testStringIntOp(L3 - L1, L2.toString(), passed, total);
+  testStringIntOp(L1 - L3, negL2.toString(), passed, total);
+  testStringIntOp(L2 - L1, L1.toString(), passed, total);
+  testStringIntOp(L1 - L2, negL1.toString(), passed, total);
+  testStringIntOp(L2 - L2, "0", passed, total);
+  testStringIntOp(negL2 - negL2, "0", passed, total);
+  testStringIntOp(L1 - L3, negL2.toString(), passed, total);
+  testStringIntOp(negL1 - negL2, L1.toString(), passed, total);
+  testStringIntOp(negL2 - negL1, negL1.toString(), passed, total);
+  testStringIntOp(L1 - negL2, L3.toString(), passed, total);
+  testStringIntOp(negL2 - L1, negL3.toString(), passed, total);
+
+  // multiplication
+  testStringIntOp(L1 * LongInt(3), L3.toString(), passed, total);
+  testStringIntOp(L2 * L3, "7407407407407407407407405925925925925925925925926", passed, total);
+  testStringIntOp(L3 * L2, "7407407407407407407407405925925925925925925925926", passed, total);
+  testStringIntOp(negL2 * L3, "-7407407407407407407407405925925925925925925925926", passed, total);
+  testStringIntOp(L3 * negL2, "-7407407407407407407407405925925925925925925925926", passed, total);
+  testStringIntOp(negL2 * negL3, "7407407407407407407407405925925925925925925925926", passed, total);
+  testStringIntOp(negL3 * negL2, "7407407407407407407407405925925925925925925925926", passed, total);
+  testStringIntOp(L19 * L91, "121932631112635269", passed, total);
+  testStringIntOp(L91 * L19, "121932631112635269", passed, total);
+
+  // division
+  testStringIntOp(L3 / L2, "1", passed, total);
+  testStringIntOp(L2 / L3, "0", passed, total);
+  testStringIntOp(negL3 / L2, "-1", passed, total);
+  testStringIntOp(L2 / negL3, "0", passed, total);
+  testStringIntOp(negL3 / negL2, "1", passed, total);
+  testStringIntOp(negL2 / negL2, "1", passed, total);
+  testStringIntOp(L91 / L19, "8", passed, total);
+
+  // modulo
+  testStringIntOp(L91 % L19, "9", passed, total);
+  testStringIntOp(L19 % L91, L19.toString(), passed, total);
+  testStringIntOp(L3 % L1, "0", passed, total);
+  
+  displayTestProgress(passed, total);
+  cout << endl;
+}
+
+void testAddAll() 
+{
 	cout << "testing addition..." << endl;
 	testOperation('+', -1001, 1001, 13, -10001, 10001, 47);
 }
 
-void testSubtractAll() {
+void testSubtractAll() 
+{
 	cout << "testing subtraction..." << endl;
 	testOperation('-', -1001, 1001, 13, -10001, 10001, 47);
 }
 
-void testMultiplyAll() {
+void testMultiplyAll() 
+{
 	cout << "testing multiplication..." << endl;
 	testOperation('*', -1001, 1001, 13, -10001, 10001, 47);
 }
 
-void testDivideAll() {
+void testDivideAll() 
+{
 	cout << "testing division..." << endl;
 	testOperation('/', -10001, 10001, 47, -1001, 1001, 13);
 }
 
-void testModuloAll() {
+void testModuloAll() 
+{
 	cout << "testing modulo..." << endl;
 	testOperation('%', -1001, 1001, 7, -101, 101, 1);
+}
+
+void runAllTestCases()
+{
+  cout << "Running all automated test cases..." << endl;
+  testCompareAll();
+	testAddAll();
+	testSubtractAll();
+	testMultiplyAll();
+	testDivideAll();
+	testModuloAll();
+	testVeryLongInts();
 }
