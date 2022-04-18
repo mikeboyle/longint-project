@@ -2,7 +2,7 @@
  * @file Matrix.h
  * @author Mike Boyle
  * @brief Header file for Matrix class
- * @date 2022-04-29
+ * @date 2022-04-18
  *
  */
 

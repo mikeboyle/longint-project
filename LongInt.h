@@ -2,11 +2,7 @@
  * @file LongInt.h
  * @author Mike Boyle
  * @brief Header file for LongInt class
- * @date 2022-04-29
- *
- * TODO: Robust testing of operations for LongInts beyond normal int max / min
- * TODO: Manual tester
- * TODO: README and other documentation
+ * @date 2022-04-18
  *
  */
 #ifndef LONG_INT_H
