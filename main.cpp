@@ -1,6 +1,7 @@
 #include "LongInt.h"
 #include <iostream>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -19,9 +20,74 @@ void testModuloAll();
 void testVeryLongInts();
 void testStringIntOp(const LongInt &, const string &, int &, int &);
 void runAllTestCases();
+void runAllManualTestCases();
+void runManualTestCase();
 
 int main() {
+  cout << "Welcome to the LongInt test driver!" << endl;
+  cout << "Let's run some automated tests before we begin!" << endl;
 	runAllTestCases();
+  cout << endl;
+  runAllManualTestCases();
+}
+
+void runAllManualTestCases()
+{
+  char cont;
+  cout << "Do you want to do manual testing? (y/n) ";
+  cin >> cont;
+  cin.ignore(numeric_limits<streamsize>::max(), '\n'); // disregard return
+
+  while (cont == 'y')
+  {
+    runManualTestCase();
+    cout << "Test another? (y/n) ";
+    cin >> cont;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // disregard return
+  }
+
+  cout << "OK. Exiting program. Goodbye!" << endl;
+}
+
+void runManualTestCase()
+{
+  LongInt L1, L2, res;
+  char op;
+  bool invalid = false;
+  cout << "Enter a long integer: ";
+  cin >> L1;
+  cout << "Enter an operator (+, -, *, /, or %): ";
+  cin >> op;
+  cin.ignore(numeric_limits<streamsize>::max(), '\n'); // disregard return
+  cout << "Enter another long integer: ";
+  cin >> L2;
+
+  switch (op)
+  {
+  case '+':
+    res = L1 + L2;
+    break;
+  case '-':
+    res = L1 - L2;
+    break;
+  case '*':
+    res = L1 * L2;
+    break;
+  case '/':
+    res = L1 / L2;
+    break;
+  case '%':
+    res = L1 % L2;
+    break;
+  default:
+    invalid = true;
+    break;
+  }
+  
+  if (!invalid)
+    cout << L1 << " " << op << " " << L2 << " = " << res << endl;
+  else
+    cout << "invalid expression" << endl;
 }
 
 bool testFunc(const int &a, const int &b, char op) {
@@ -29,7 +95,8 @@ bool testFunc(const int &a, const int &b, char op) {
 	LongInt L2(b);
 	string expected, actual;
 
-	switch (op) {
+	switch (op) 
+  {
 	case '+':
 		expected = to_string(a + b);
 		actual = (L1 + L2).toString();
@@ -272,7 +339,6 @@ void testModuloAll()
 
 void runAllTestCases()
 {
-  cout << "Running all automated test cases..." << endl;
   testCompareAll();
 	testAddAll();
 	testSubtractAll();
