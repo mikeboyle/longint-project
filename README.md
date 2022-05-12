@@ -3,7 +3,7 @@
 - **Date**: 2022-04-18
 - **Section**: CSC-331H
 
-This project implements a `LongInt` class to represent arbitraily large positive and negative integers. Typical `int` classes use bits to represent an integer and are thus an integer class of `n` bits is limited to integers within +/- `2^n` (e.g., `2^32` in the case of a 32 bit integer). `LongInt` gets around this by representing each digit of the number as a node in a doubly linked list.
+This project implements a `LongInt` class to represent arbitraily large positive and negative integers. Typical `int` classes use bits to represent an integer. This means an integer class of `n` bits is limited to integers within +/- `2^n` (e.g., `2^32` in the case of a 32 bit integer and even less if it is a signed int). `LongInt` gets around this by representing each digit of the number as a node in a doubly linked list.
 
 
 ## Contents
@@ -81,7 +81,7 @@ To compile and run locally:
 - Addition and subtraction are handled in a way very similar to how a human would manually add up long integer sums, with carrying and borrowing.
 - Division is handled in a way very similar to manual long division, one digit at a time. To determine the correct digit in the answer, repeated subtraction is used. However because this mirrors long division, the maximum number of repeated subtractions is `9 * <number of digits in dividend>`.
 - Modulo uses the same procedures as division, except we return the final remainder instead of the quotient. Modulo also has many more cases where we can get an answer without doing any division at all (for example, a smaller number modulo a larger number), so it is noticeably faster.
-- Multiplication is handled in a very different way, using matrix multiplication. [Please see my github gist](https://github.com/mikeboyle/long-int-multiplication-notes/blob/main/Long%20Int%20Multiplication%20with%20Matrices.ipynb) for a longer explanation of how this works.
+- Multiplication is handled in a very different way, using matrix multiplication. [Please see my github gist](https://github.com/mikeboyle/long-int-multiplication-notes/blob/main/Long%20Int%20Multiplication%20with%20Matrices.ipynb) for a longer explanation of how this works. The runtime efficiency of this way of multiplication is still quadratic, but that is in terms of the number of digits -- not the actual size of the integer. This is a great improvement over a brute force method such as repeated addition.
 
 ## Operation handlers
 - I made a design decision to make the `add`, `subtract`, `multiply`, `divide`, and `modulo` functions as basic as possible. These functions expect to receive only positive numbers and expect to output only positive numbers. In the case of subtracting `a - b` for example, the `subtract()` function expects `a` and `b` to be positive, and for `a` to be greater than or equal to `b`.
